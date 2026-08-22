@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photo Booth Premium Download</title>
     
+    <!-- Libreria per la lettura del QR Code -->
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    
+    <!-- Libreria per la generazione sicura del QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <style>
         /* ==========================================================================
@@ -31,22 +35,20 @@
             --glass-glow: rgba(99, 91, 255, 0.15);
         }
 
-        body {
+        /* STRUTTURA BLOCCATA: Impedisce lo scroll del viewport principale per eliminare il fondo nero */
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Blocco totale dell'overscroll di sistema */
             background: #090909;
             color: var(--text-main);
-            min-height: 100vh;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            perspective: 1000px;
         }
 
         /* ==========================================================================
-           SFONDO ANIMATO PREMIUM (Particelle, Bagliori e Gradienti in movimento)
+           SFONDO ANIMATO PARALLASSE BLOCCATO (FIXED)
            ========================================================================== */
         .ambient-bg {
-            position: fixed;
+            position: fixed; /* Bloccato sullo schermo, non scorre in alcun modo */
             top: 0;
             left: 0;
             width: 100vw;
@@ -54,9 +56,9 @@
             background: var(--bg-gradient);
             z-index: 1;
             overflow: hidden;
+            pointer-events: none;
         }
 
-        /* Cerchi sfocati in movimento (Orbital Glows) */
         .glow-orb {
             position: absolute;
             border-radius: 50%;
@@ -103,7 +105,6 @@
             100% { transform: translate(-5%, -5%) scale(0.9); }
         }
 
-        /* Canvas per Micro-Particelle */
         #particleCanvas {
             position: absolute;
             top: 0;
@@ -115,15 +116,27 @@
         }
 
         /* ==========================================================================
-           CONTENITORE PRINCIPALE (Glassmorphism & Struttura)
+           CONTENITORE PRINCIPALE & SCROLL ISOLATO
            ========================================================================== */
-        .container {
+        /* Wrapper principale: gestisce unicamente lui lo scroll della pagina */
+        .main-scroll-wrapper {
             position: relative;
             z-index: 10;
             width: 100%;
-            max-width: 460px;
-            padding: 24px;
-            margin: 16px;
+            height: 100vh;
+            overflow-y: auto; /* Abilita lo scroll unicamente per la scheda */
+            -webkit-overflow-scrolling: touch;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+            perspective: 1000px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            margin: auto 0; /* Centra la card se lo schermo è alto */
         }
 
         .card {
@@ -132,12 +145,12 @@
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
             border-radius: 28px;
-            padding: 40px 32px;
+            padding: 36px 28px;
             text-align: center;
             box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6), 
                         inset 0 1px 1px rgba(255, 255, 255, 0.1);
             position: relative;
-            overflow: hidden;
+            overflow: visible;
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
                         box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
             animation: cardEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -154,7 +167,7 @@
             to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
 
-        /* Gestione degli Step con transizioni fluide */
+        /* Gestione degli Step */
         .step {
             display: none;
             opacity: 0;
@@ -173,11 +186,11 @@
         }
 
         /* ==========================================================================
-           ELEMENTI TIPOGRAFICI E ICONE
+           ELEMENTI TIPOGRAFICI E LISTE ISTRUZIONI
            ========================================================================== */
         .icon-wrapper {
-            font-size: 64px;
-            margin-bottom: 24px;
+            font-size: 56px;
+            margin-bottom: 20px;
             display: inline-block;
             filter: drop-shadow(0 0 20px rgba(255,255,255,0.1));
             animation: pulseIcon 3s ease-in-out infinite;
@@ -194,7 +207,7 @@
         }
 
         h1 {
-            font-size: 32px;
+            font-size: 26px;
             font-weight: 700;
             letter-spacing: -0.5px;
             margin-bottom: 12px;
@@ -204,15 +217,98 @@
         }
 
         p {
-            font-size: 16px;
+            font-size: 15px;
             color: var(--text-muted);
             line-height: 1.5;
-            margin-bottom: 36px;
-            padding: 0 8px;
+            margin-bottom: 24px;
+        }
+
+        /* Box Istruzioni Modulare */
+        .instruction-list {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .instruction-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, var(--accent-stripe), #4a00e0);
+            color: white;
+            font-weight: 700;
+            font-size: 13px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            box-shadow: 0 4px 10px rgba(99, 91, 255, 0.3);
+        }
+
+        .instruction-text {
+            font-size: 14px;
+            color: #e2e2e5;
+            line-height: 1.45;
+        }
+
+        .instruction-text strong {
+            color: #ffffff;
+        }
+
+        .alert-box {
+            background: rgba(255, 69, 58, 0.1);
+            border: 1px solid rgba(255, 69, 58, 0.3);
+            border-radius: 16px;
+            padding: 14px 16px;
+            text-align: left;
+            margin-bottom: 24px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .alert-icon {
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .alert-text {
+            font-size: 13px;
+            color: #ff8e88;
+            line-height: 1.4;
+        }
+
+        .alert-text strong {
+            color: #ff453a;
+        }
+
+        .timer-badge {
+            display: inline-block;
+            background: rgba(255, 69, 58, 0.15);
+            border: 1px solid rgba(255, 69, 58, 0.4);
+            color: #ff453a;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
         }
 
         /* ==========================================================================
-           PULSANTI PREMIUM (Glow, Riflesso ed Effetto Click)
+           PULSANTI
            ========================================================================== */
         .btn {
             position: relative;
@@ -238,7 +334,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Effetto Luce/Riflesso che passa sul pulsante */
         .btn::after {
             content: '';
             position: absolute;
@@ -274,13 +369,30 @@
         }
 
         /* ==========================================================================
-           INTERFACCIA SCANNER QR (Step 2 Dettagliato)
+           QR DISPLAY & SCANNER
            ========================================================================== */
+        .qr-display-container {
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .qr-display-container img, 
+        .qr-display-container canvas {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+
         .scanner-container {
             position: relative;
             width: 280px;
             height: 280px;
-            margin: 0 auto 32px auto;
+            margin: 0 auto 20px auto;
             border-radius: 24px;
             overflow: hidden;
             background: rgba(0, 0, 0, 0.4);
@@ -288,7 +400,6 @@
             box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
         }
 
-        /* Allineamento del video html5-qrcode interno */
         #reader {
             width: 100% !important;
             height: 100% !important;
@@ -300,7 +411,6 @@
             object-fit: cover !important;
         }
 
-        /* Cornice e Angoli Luminosi dello Scanner */
         .scanner-frame {
             position: absolute;
             top: 0;
@@ -317,14 +427,12 @@
             width: 24px;
             height: 24px;
             border: 3px solid transparent;
-            transition: all 0.3s ease;
         }
         .top-left { top: 16px; left: 16px; border-top-color: var(--accent-glow); border-left-color: var(--accent-glow); border-top-left-radius: 12px;}
         .top-right { top: 16px; right: 16px; border-top-color: var(--accent-glow); border-right-color: var(--accent-glow); border-top-right-radius: 12px;}
         .bottom-left { bottom: 16px; left: 16px; border-bottom-color: var(--accent-glow); border-left-color: var(--accent-glow); border-bottom-left-radius: 12px;}
         .bottom-right { bottom: 16px; right: 16px; border-bottom-color: var(--accent-glow); border-right-color: var(--accent-glow); border-bottom-right-radius: 12px;}
 
-        /* Linea di Scansione Laser */
         .scan-laser {
             position: absolute;
             top: 0;
@@ -345,9 +453,7 @@
             100% { top: 90%; opacity: 0; }
         }
 
-        /* ==========================================================================
-           ELEMENTI DI CARICAMENTO (Loading & Feedback Spunti)
-           ========================================================================== */
+        /* OVERLAYS LOADING & SUCCESS */
         .loading-overlay {
             position: absolute;
             top: 0;
@@ -371,7 +477,6 @@
             pointer-events: auto;
         }
 
-        /* Spinner Animato */
         .spinner {
             width: 44px;
             height: 44px;
@@ -386,7 +491,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Barra di Caricamento Avanzamento per Analisi QR */
         .progress-bar-container {
             width: 160px;
             height: 4px;
@@ -410,7 +514,6 @@
             font-weight: 500;
         }
 
-        /* Feedback di Successo sullo Scanner */
         .success-overlay {
             position: absolute;
             top: 0;
@@ -432,19 +535,22 @@
             pointer-events: auto;
         }
 
-        /* Riconoscimento Responsive */
         @media(max-width: 480px) {
+            .main-scroll-wrapper {
+                padding: 20px 12px;
+            }
             .card {
-                padding: 32px 20px;
+                padding: 30px 20px;
                 border-radius: 24px;
             }
-            h1 { font-size: 26px; }
-            p { font-size: 15px; }
+            h1 { font-size: 24px; }
+            p { font-size: 14px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- SFONDO PARALLASSE FISSO INAMOVIBILE -->
     <div class="ambient-bg">
         <div class="glow-orb orb-1"></div>
         <div class="glow-orb orb-2"></div>
@@ -452,78 +558,163 @@
         <canvas id="particleCanvas"></canvas>
     </div>
 
-    <div class="container">
-        <div class="card">
-            
-            <div id="step1" class="step active">
-                <div class="icon-wrapper">📸</div>
-                <h1>Grazie!</h1>
-                <p>Pagamento completato con successo.<br>Premi il pulsante qui sotto per visualizzare la tua foto.</p>
-                <button class="btn" onclick="goToStep2()">
-                    VISUALIZZA LA MIA FOTO
-                </button>
-            </div>
-
-            <div id="step2" class="step">
-                <h1>Inquadra il QR</h1>
-                <p>Posiziona il codice QR all'interno del riquadro per caricare istantaneamente il file.</p>
+    <!-- WRAPPER UNICO ADIBITO ALLO SCROLL DEI CONTENUTI -->
+    <div class="main-scroll-wrapper" id="scrollWrapper">
+        <div class="container">
+            <div class="card">
                 
-                <div class="scanner-container">
-                    <div id="reader"></div>
+                <!-- STEP 1: SCHERMATA GRAZIE CON PULSANTE CONTINUA -->
+                <div id="step1" class="step active">
+                    <div class="icon-wrapper icon-success">✔</div>
+                    <h1>Grazie per il tuo pagamento!</h1>
+                    <p>Il pagamento è andato a buon fine. Premi sul pulsante qui sotto per leggere le istruzioni ed accedere al tuo codice personale.</p>
                     
-                    <div class="scanner-frame">
-                        <div class="corner top-left"></div>
-                        <div class="corner top-right"></div>
-                        <div class="corner bottom-left"></div>
-                        <div class="corner bottom-right"></div>
-                        <div class="scan-laser" id="laser"></div>
-                    </div>
+                    <button class="btn" onclick="goToStep2()">
+                        Continua
+                    </button>
+                </div>
 
-                    <div id="loadingOverlay" class="loading-overlay">
-                        <div class="spinner"></div>
-                        <div class="loading-text">Avvio fotocamera...</div>
-                    </div>
+                <!-- STEP 2: ISTRUZIONI DI GUIDA DETTAGLIATE -->
+                <div id="step2" class="step">
+                    <h1>Come riscattare la tua foto</h1>
+                    <p>Leggi attentamente questi brevi passaggi prima di proseguire:</p>
 
-                    <div id="analysisOverlay" class="loading-overlay">
-                        <div class="spinner" style="border-top-color: var(--accent-glow);"></div>
-                        <div class="loading-text">Analisi del QR...</div>
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" id="analysisBar"></div>
+                    <div class="instruction-list">
+                        <div class="instruction-item">
+                            <div class="badge">1</div>
+                            <div class="instruction-text">
+                                Nel prossimo passaggio ti mostreremo il tuo <strong>QR Code personale</strong>. Mostralo alla telecamera della postazione dove trovi scritto <strong>"Passaggio 1: Scansiona qui il tuo codice"</strong>.
+                            </div>
+                        </div>
+
+                        <div class="instruction-item">
+                            <div class="badge">2</div>
+                            <div class="instruction-text">
+                                Appena la telecamera leggendolo farà un suono (un <strong>"BEEP"</strong>), riprendi lo smartphone e clicca subito sul tasto <strong>"Continua"</strong>.
+                            </div>
+                        </div>
+
+                        <div class="instruction-item">
+                            <div class="badge">3</div>
+                            <div class="instruction-text">
+                                Cerca sullo schermo del dispositivo la sezione <strong>"Passaggio 2"</strong> e scansiona con il tuo telefono il piccolo codice QR che apparirà lì.
+                            </div>
+                        </div>
+
+                        <div class="instruction-item">
+                            <div class="badge">4</div>
+                            <div class="instruction-text">
+                                Una volta scansionato, clicca sul pulsante <strong>"Visualizza la mia foto"</strong> per scaricarla subito sul tuo telefono!
+                            </div>
                         </div>
                     </div>
 
-                    <div id="successOverlay" class="success-overlay">
-                        <div class="icon-wrapper icon-success" style="font-size: 48px; margin-bottom: 12px;">✔</div>
-                        <div class="loading-text" style="color: #34C759; font-weight: 600;">QR rilevato con successo</div>
+                    <div class="alert-box">
+                        <div class="alert-icon">⚠️</div>
+                        <div class="alert-text">
+                            <strong>ATTENZIONE:</strong> Dal momento del "Beep" avrai esattamente <strong>30 secondi</strong> per scannerizzare il QR del Passaggio 2, altrimenti la pagina si bloccherà per motivi di sicurezza.
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="goToStep3()">
+                        Ho capito, Genera il QR
+                    </button>
+                </div>
+
+                <!-- STEP 3: VISUALIZZAZIONE QR CODE PERSONALE -->
+                <div id="step3" class="step">
+                    <!-- Stato di Caricamento QR -->
+                    <div id="qrLoadingState">
+                        <div class="spinner" style="margin: 20px auto;"></div>
+                        <h1>Generazione in corso...</h1>
+                        <p>Creazione del tuo codice unico crittografato.</p>
+                    </div>
+
+                    <!-- Stato QR Pronto -->
+                    <div id="qrReadyState" style="display: none;">
+                        <h1>Il tuo QR personale</h1>
+                        <div class="qr-display-container">
+                            <div id="qrcode"></div>
+                        </div>
+                        <p style="margin-bottom: 24px; font-size: 14px;">Mostra questo codice al lettore <strong>Passaggio 1</strong> fino al "Beep", poi premi Continua.</p>
+                        
+                        <button class="btn" onclick="goToStep4()">
+                            Continua (Passaggio 2)
+                        </button>
                     </div>
                 </div>
-            </div>
 
-            <div id="step3" class="step">
-                <div class="icon-wrapper icon-success">✔</div>
-                <h1>Immagine caricata</h1>
-                <p>La tua foto ad altissima risoluzione è pronta.<br>Puoi scaricarla subito sul tuo dispositivo.</p>
-                <button class="btn" onclick="downloadPhoto()">
-                    SCARICA LA MIA FOTO
-                </button>
-            </div>
+                <!-- STEP 4: SCANNER FOTOCAMERA (Passaggio 2 Foto) -->
+                <div id="step4" class="step">
+                    <h1>Inquadra il QR della Foto</h1>
+                    <p>Inquadra il piccolo QR code mostrato sullo schermo nella sezione <strong>Passaggio 2</strong>.</p>
 
+                    <!-- CONTO ALLA ROVESCIA DI 30 SECONDI -->
+                    <div class="timer-badge" id="timerDisplay">Tempo rimasto: 30s</div>
+
+                    <div class="scanner-container">
+                        <div id="reader"></div>
+                        
+                        <div class="scanner-frame">
+                            <div class="corner top-left"></div>
+                            <div class="corner top-right"></div>
+                            <div class="corner bottom-left"></div>
+                            <div class="corner bottom-right"></div>
+                            <div class="scan-laser" id="laser"></div>
+                        </div>
+
+                        <div id="loadingOverlay" class="loading-overlay">
+                            <div class="spinner"></div>
+                            <div class="loading-text">Avvio fotocamera...</div>
+                        </div>
+
+                        <div id="analysisOverlay" class="loading-overlay">
+                            <div class="spinner" style="border-top-color: var(--accent-glow);"></div>
+                            <div class="loading-text">Analisi del QR...</div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" id="analysisBar"></div>
+                            </div>
+                        </div>
+
+                        <div id="successOverlay" class="success-overlay">
+                            <div class="icon-wrapper icon-success" style="font-size: 48px; margin-bottom: 12px;">✔</div>
+                            <div class="loading-text" style="color: #34C759; font-weight: 600;">QR Rilevato!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 5: DOWNLOAD FINALE FOTO -->
+                <div id="step5" class="step">
+                    <div class="icon-wrapper icon-success">✔</div>
+                    <h1>Immagine Caricata!</h1>
+                    <p>La tua foto ad altissima risoluzione è pronta per essere salvata.</p>
+                    <button class="btn" onclick="downloadPhoto()">
+                        VISUALIZZA LA MIA FOTO
+                    </button>
+                </div>
+
+            </div>
         </div>
     </div>
 
     <script>
-        // Variabile globale richiesta per memorizzare l'URL letto
+        /* ==========================================================================
+           STATO GLOBALE E VARIABILI
+           ========================================================================== */
         let urlLettoDalQR = "";
         let html5QrCodeScanner = null;
+        let qrCodeInstance = null;
+        
+        let scanTimer = null;
+        let timeLeft = 30; // Impostato a 30 secondi
 
         /* ==========================================================================
-           GESTIONE CAMBIO STEP CON EFFETTI FLUIDI
+           GESTIONE CAMBIO STEP CON SCROLL AUTOMATICO IN ALTO
            ========================================================================== */
         function switchStep(currentStepId, nextStepId, callback = null) {
             const currentStep = document.getElementById(currentStepId);
             const nextStep = document.getElementById(nextStepId);
 
-            // Animazione in uscita dello step attuale
             currentStep.style.opacity = "0";
             currentStep.style.transform = "scale(0.95) translateY(-10px)";
             currentStep.style.filter = "blur(8px)";
@@ -532,24 +723,86 @@
                 currentStep.classList.remove('active');
                 nextStep.classList.add('active');
                 
-                // Forza il reflow del browser per rendere attiva l'animazione di entrata
-                void nextStep.offsetWidth;
+                void nextStep.offsetWidth; // Force Reflow
 
-                // Attivazione animazione in entrata dello step successivo
                 nextStep.style.opacity = "1";
                 nextStep.style.transform = "scale(1) translateY(0)";
                 nextStep.style.filter = "blur(0)";
 
-                if (callback) callback();
-            }, 400); // Sincronizzato perfettamente con i tempi delle transizioni CSS
-        }
+                // Riporta il contenitore di scroll in alto ad ogni cambio di schermata
+                document.getElementById('scrollWrapper').scrollTo({ top: 0, behavior: 'smooth' });
 
-        function goToStep2() {
-            switchStep('step1', 'step2', startScanner);
+                if (callback) callback();
+            }, 400);
         }
 
         /* ==========================================================================
-           INTEGRAZIONE E GESTIONE CAMERA (html5-qrcode)
+           NAVIGAZIONE
+           ========================================================================== */
+        function goToStep2() {
+            switchStep('step1', 'step2');
+        }
+
+        function goToStep3() {
+            switchStep('step2', 'step3', () => {
+                setTimeout(() => {
+                    generateSecureQr();
+                    document.getElementById('qrLoadingState').style.display = 'none';
+                    document.getElementById('qrReadyState').style.display = 'block';
+                }, 1200);
+            });
+        }
+
+        function goToStep4() {
+            switchStep('step3', 'step4', startScanner);
+        }
+
+        /* ==========================================================================
+           GENERAZIONE CRITTOGRAFICA QR CODE
+           ========================================================================== */
+        function generateSecureRandomString(length) {
+            const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            const randomValues = new Uint8Array(length);
+            window.crypto.getRandomValues(randomValues);
+            
+            let result = "";
+            for (let i = 0; i < length; i++) {
+                result += charset[randomValues[i] % charset.length];
+            }
+            return result;
+        }
+
+        function generateSecureQr() {
+            const now = new Date();
+            
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const dateStr = `${year}-${month}-${day}`;
+
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeStr = `${hours}-${minutes}-${seconds}`;
+
+            const randomSecureStr = generateSecureRandomString(160);
+            const finalQrString = `CARLO2026/${dateStr}/${timeStr}/${randomSecureStr}`;
+
+            const qrContainer = document.getElementById("qrcode");
+            qrContainer.innerHTML = "";
+
+            qrCodeInstance = new QRCode(qrContainer, {
+                text: finalQrString,
+                width: 230,
+                height: 230,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        /* ==========================================================================
+           INTEGRAZIONE FOTOCAMERA SCANNER E TIMER 30s
            ========================================================================== */
         function startScanner() {
             const loadingOverlay = document.getElementById('loadingOverlay');
@@ -558,7 +811,9 @@
             loadingOverlay.classList.add('active');
             laser.style.display = 'none';
 
-            // Inizializza l'istanza dello scanner sul div #reader
+            // Reset e Avvio del Timer di 30 secondi
+            resetAndStartTimer();
+
             html5QrCodeScanner = new Html5Qrcode("reader");
 
             const config = { 
@@ -567,18 +822,15 @@
                 aspectRatio: 1.0
             };
 
-            // Avvio della fotocamera posteriore (user-facing su desktop / environment su mobile)
             html5QrCodeScanner.start(
                 { facingMode: "environment" }, 
                 config,
                 onQrCodeSuccess
             ).then(() => {
-                // Fotocamera avviata correttamente
                 loadingOverlay.classList.remove('active');
                 laser.style.display = 'block';
             }).catch(err => {
-                console.error("Impossibile avviare la fotocamera:", err);
-                // Fallback nel caso in cui i permessi vengano negati o manchi la camera posteriore
+                console.error("Impossibile avviare fotocamera posteriore:", err);
                 html5QrCodeScanner.start({ facingMode: "user" }, config, onQrCodeSuccess)
                 .then(() => {
                     loadingOverlay.classList.remove('active');
@@ -587,20 +839,63 @@
                 .catch(() => {
                     alert("Errore nell'accesso alla fotocamera. Assicurati di aver concesso i permessi.");
                     loadingOverlay.classList.remove('active');
+                    stopTimer();
                 });
             });
         }
 
+        function resetAndStartTimer() {
+            stopTimer();
+            timeLeft = 30; // Countdown fissato a 30 secondi
+            updateTimerDisplay();
+
+            scanTimer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+
+                if (timeLeft <= 0) {
+                    stopTimer();
+                    handleScanTimeout();
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (scanTimer) {
+                clearInterval(scanTimer);
+                scanTimer = null;
+            }
+        }
+
+        function updateTimerDisplay() {
+            const display = document.getElementById('timerDisplay');
+            if (display) {
+                display.innerText = `Tempo rimasto: ${timeLeft}s`;
+            }
+        }
+
+        function handleScanTimeout() {
+            // Spegne la fotocamera se attiva
+            if (html5QrCodeScanner) {
+                html5QrCodeScanner.stop().catch(err => console.log(err));
+            }
+
+            alert("Tempo scaduto! Non è stato scansionato alcun codice entro 30 secondi. Verrai reindirizzato alle istruzioni.");
+            
+            // Ritorno automatico allo Step 2 (Istruzioni)
+            switchStep('step4', 'step2');
+        }
+
         function onQrCodeSuccess(decodedText, decodedResult) {
-            // Ferma immediatamente la scansione per evitare letture multiple involontarie
+            stopTimer(); // Ferma il timer appena il codice viene rilevato
+            const laser = document.getElementById('laser');
             laser.style.display = 'none';
             
             if (html5QrCodeScanner) {
                 html5QrCodeScanner.stop().then(() => {
                     processDecodedQr(decodedText);
                 }).catch(err => {
-                    console.error("Errore durante l'arresto della fotocamera:", err);
-                    processDecodedQr(decodedText); // Procedo comunque se la camera fallisce lo stop
+                    processDecodedQr(decodedText);
                 });
             } else {
                 processDecodedQr(decodedText);
@@ -608,34 +903,29 @@
         }
 
         function processDecodedQr(url) {
-            // Salvataggio stringa pura senza manipolazioni come da requisiti commerciali
             urlLettoDalQR = url;
 
-            // Mostra overlay di Analisi del QR
             const analysisOverlay = document.getElementById('analysisOverlay');
             const analysisBar = document.getElementById('analysisBar');
             analysisOverlay.classList.add('active');
             
-            // Animazione della barra di avanzamento fittizia per aumentare l'effetto premium di elaborazione
             setTimeout(() => { analysisBar.style.width = "100%"; }, 50);
 
             setTimeout(() => {
                 analysisOverlay.classList.remove('active');
                 
-                // Mostra il feedback di successo interno allo scanner
                 const successOverlay = document.getElementById('successOverlay');
                 successOverlay.classList.add('active');
 
-                // Passaggio automatico allo Step Finale 3
                 setTimeout(() => {
-                    switchStep('step2', 'step3');
+                    switchStep('step4', 'step5');
                 }, 1200);
 
-            }, 1000); // Tempo di attesa simulazione analisi
+            }, 1000);
         }
 
         /* ==========================================================================
-           STEP 3: APERTURA E DOWNLOAD DEL LINK
+           DOWNLOAD FINALE
            ========================================================================== */
         function downloadPhoto() {
             if (urlLettoDalQR) {
@@ -646,7 +936,7 @@
         }
 
         /* ==========================================================================
-           SISTEMA DI MICRO-PARTICELLE SU CANVAS (Effetto Parallasse Premium Ambientale)
+           SISTEMA PARTICELLE DI SFONDO FISSO
            ========================================================================== */
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
@@ -706,7 +996,6 @@
         initParticles();
         animateParticles();
 
-        // Parallasse leggero legato al movimento del mouse/inclinazione dispositivo
         window.addEventListener('mousemove', (e) => {
             const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
             const moveY = (e.clientY - window.innerHeight / 2) * 0.01;
