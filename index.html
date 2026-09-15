@@ -35,11 +35,11 @@
             --glass-glow: rgba(99, 91, 255, 0.15);
         }
 
-        /* STRUTTURA BLOCCATA: Impedisce lo scroll del viewport principale per eliminare il fondo nero */
+        /* STRUTTURA BLOCCATA */
         html, body {
             width: 100%;
             height: 100%;
-            overflow: hidden; /* Blocco totale dell'overscroll di sistema */
+            overflow: hidden;
             background: #090909;
             color: var(--text-main);
         }
@@ -48,7 +48,7 @@
            SFONDO ANIMATO PARALLASSE BLOCCATO (FIXED)
            ========================================================================== */
         .ambient-bg {
-            position: fixed; /* Bloccato sullo schermo, non scorre in alcun modo */
+            position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
@@ -118,25 +118,25 @@
         /* ==========================================================================
            CONTENITORE PRINCIPALE & SCROLL ISOLATO
            ========================================================================== */
-        /* Wrapper principale: gestisce unicamente lui lo scroll della pagina */
         .main-scroll-wrapper {
             position: relative;
             z-index: 10;
             width: 100%;
             height: 100vh;
-            overflow-y: auto; /* Abilita lo scroll unicamente per la scheda */
+            overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 40px 20px;
+            padding: 40px 20px 100px 20px;
             perspective: 1000px;
         }
 
         .container {
             width: 100%;
             max-width: 480px;
-            margin: auto 0; /* Centra la card se lo schermo è alto */
+            margin: auto 0;
+            padding-bottom: 50px;
         }
 
         .card {
@@ -145,7 +145,7 @@
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
             border-radius: 28px;
-            padding: 36px 28px;
+            padding: 36px 28px 48px 28px;
             text-align: center;
             box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6), 
                         inset 0 1px 1px rgba(255, 255, 255, 0.1);
@@ -165,6 +165,45 @@
         @keyframes cardEntrance {
             from { opacity: 0; transform: translateY(40px) scale(0.95); filter: blur(10px); }
             to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+
+        /* BARRA DI PROGRESSO AVANZAMENTO STEP */
+        .step-progress-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding: 0 10px;
+        }
+
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .progress-dot.active {
+            background: var(--accent-glow);
+            box-shadow: 0 0 10px var(--accent-glow);
+            transform: scale(1.3);
+        }
+
+        .progress-line {
+            flex-grow: 1;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-line-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-stripe);
+            transition: width 0.4s ease;
         }
 
         /* Gestione degli Step */
@@ -223,17 +262,17 @@
             margin-bottom: 24px;
         }
 
-        /* Box Istruzioni Modulare */
+        /* Box Istruzioni Modulare e Spaziato */
         .instruction-list {
             text-align: left;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 24px 20px;
+            margin-bottom: 28px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
         }
 
         .instruction-item {
@@ -261,7 +300,7 @@
         .instruction-text {
             font-size: 14px;
             color: #e2e2e5;
-            line-height: 1.45;
+            line-height: 1.5;
         }
 
         .instruction-text strong {
@@ -272,9 +311,9 @@
             background: rgba(255, 69, 58, 0.1);
             border: 1px solid rgba(255, 69, 58, 0.3);
             border-radius: 16px;
-            padding: 14px 16px;
+            padding: 16px;
             text-align: left;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
             display: flex;
             gap: 12px;
             align-items: center;
@@ -295,21 +334,84 @@
             color: #ff453a;
         }
 
+        /* TIMER BADGE DINAMICO */
         .timer-badge {
             display: inline-block;
-            background: rgba(255, 69, 58, 0.15);
-            border: 1px solid rgba(255, 69, 58, 0.4);
-            color: #ff453a;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
             padding: 6px 16px;
             border-radius: 20px;
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .timer-badge.warning {
+            background: rgba(255, 69, 58, 0.2);
+            border-color: rgba(255, 69, 58, 0.6);
+            color: #ff453a;
+            animation: pulseWarning 1s infinite alternate;
+        }
+
+        @keyframes pulseWarning {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        /* SEZIONE FAQ ACCORDION */
+        .faq-section {
+            margin-top: 24px;
+            margin-bottom: 28px;
+            text-align: left;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+        }
+
+        .faq-title {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #ffffff;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 0 16px 12px 16px;
+            font-size: 12px;
+            color: var(--text-muted);
+            display: none;
+            line-height: 1.4;
         }
 
         /* ==========================================================================
-           PULSANTI
+           PULSANTI E AZIONI
            ========================================================================== */
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
         .btn {
             position: relative;
             width: 100%;
@@ -332,6 +434,18 @@
             justify-content: center;
             gap: 8px;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: none;
+            color: #ffffff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
         }
 
         .btn::after {
@@ -366,6 +480,22 @@
         .btn:active {
             transform: translateY(1px) scale(0.99);
             box-shadow: 0 4px 10px rgba(99, 91, 255, 0.3);
+        }
+
+        .back-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: color 0.3s;
+        }
+        .back-btn:hover {
+            color: #ffffff;
         }
 
         /* ==========================================================================
@@ -535,12 +665,93 @@
             pointer-events: auto;
         }
 
+        .torch-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            z-index: 10;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            display: none;
+        }
+
+        /* ==========================================================================
+           MODALE CUSTOM PER TIMEOUT (SOSTITUIRÀ L'ALERT DEL BROWSER)
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: rgba(25, 25, 25, 0.85);
+            border: 1px solid rgba(255, 69, 58, 0.3);
+            border-radius: 24px;
+            padding: 32px 24px;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8),
+                        0 0 30px rgba(255, 69, 58, 0.15);
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.active .modal-card {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .modal-desc {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
         @media(max-width: 480px) {
             .main-scroll-wrapper {
-                padding: 20px 12px;
+                padding: 20px 12px 80px 12px;
             }
             .card {
-                padding: 30px 20px;
+                padding: 30px 20px 48px 20px;
                 border-radius: 24px;
             }
             h1 { font-size: 24px; }
@@ -563,6 +774,19 @@
         <div class="container">
             <div class="card">
                 
+                <!-- INDICATORE DI PROGRESSO AVANZAMENTO -->
+                <div class="step-progress-bar">
+                    <div class="progress-dot active" id="dot1"></div>
+                    <div class="progress-line"><div class="progress-line-fill" id="fill1"></div></div>
+                    <div class="progress-dot" id="dot2"></div>
+                    <div class="progress-line"><div class="progress-line-fill" id="fill2"></div></div>
+                    <div class="progress-dot" id="dot3"></div>
+                    <div class="progress-line"><div class="progress-line-fill" id="fill3"></div></div>
+                    <div class="progress-dot" id="dot4"></div>
+                    <div class="progress-line"><div class="progress-line-fill" id="fill4"></div></div>
+                    <div class="progress-dot" id="dot5"></div>
+                </div>
+
                 <!-- STEP 1: SCHERMATA GRAZIE CON PULSANTE CONTINUA -->
                 <div id="step1" class="step active">
                     <div class="icon-wrapper icon-success">✔</div>
@@ -574,8 +798,9 @@
                     </button>
                 </div>
 
-                <!-- STEP 2: ISTRUZIONI DI GUIDA DETTAGLIATE -->
+                <!-- STEP 2: ISTRUZIONI DI GUIDA DETTAGLIATE CON PIÙ SPAZIO -->
                 <div id="step2" class="step">
+                    <button class="back-btn" onclick="goToStep1()">← Indietro</button>
                     <h1>Come riscattare la tua foto</h1>
                     <p>Leggi attentamente questi brevi passaggi prima di proseguire:</p>
 
@@ -612,7 +837,30 @@
                     <div class="alert-box">
                         <div class="alert-icon">⚠️</div>
                         <div class="alert-text">
-                            <strong>ATTENZIONE:</strong> Dal momento del "Beep" avrai esattamente <strong>30 secondi</strong> per scannerizzare il QR del Passaggio 2, altrimenti la pagina si bloccherà per motivi di sicurezza.
+                            <strong>ATTENZIONE:</strong> Dal momento dell'avvio della fotocamera avrai esattamente <strong>30 secondi</strong> per scannerizzare il QR del Passaggio 2.
+                        </div>
+                    </div>
+
+                    <!-- SEZIONE FAQ -->
+                    <div class="faq-section">
+                        <div class="faq-title">Hai bisogno di aiuto?</div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <span>La fotocamera non si apre?</span>
+                                <span>+</span>
+                            </div>
+                            <div class="faq-answer">
+                                Assicurati di aver dato i permessi per la fotocamera al tuo browser (Safari/Chrome). Se bloccata, ricarica la pagina e concedi i permessi.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFaq(this)">
+                                <span>Non sento il "Beep"?</span>
+                                <span>+</span>
+                            </div>
+                            <div class="faq-answer">
+                                Assicurati che il tuo telefono non sia in modalità silenziosa e alza il volume dei media.
+                            </div>
                         </div>
                     </div>
 
@@ -623,6 +871,8 @@
 
                 <!-- STEP 3: VISUALIZZAZIONE QR CODE PERSONALE -->
                 <div id="step3" class="step">
+                    <button class="back-btn" onclick="goToStep2()">← Torna alle istruzioni</button>
+                    
                     <!-- Stato di Caricamento QR -->
                     <div id="qrLoadingState">
                         <div class="spinner" style="margin: 20px auto;"></div>
@@ -646,15 +896,18 @@
 
                 <!-- STEP 4: SCANNER FOTOCAMERA (Passaggio 2 Foto) -->
                 <div id="step4" class="step">
+                    <button class="back-btn" onclick="goToStep3()">← Torna al QR personale</button>
                     <h1>Inquadra il QR della Foto</h1>
                     <p>Inquadra il piccolo QR code mostrato sullo schermo nella sezione <strong>Passaggio 2</strong>.</p>
 
                     <!-- CONTO ALLA ROVESCIA DI 30 SECONDI -->
-                    <div class="timer-badge" id="timerDisplay">Tempo rimasto: 30s</div>
+                    <div class="timer-badge" id="timerDisplay">In attesa della fotocamera...</div>
 
                     <div class="scanner-container">
                         <div id="reader"></div>
                         
+                        <button id="torchBtn" class="torch-btn" onclick="toggleTorch()">🔦 Luce</button>
+
                         <div class="scanner-frame">
                             <div class="corner top-left"></div>
                             <div class="corner top-right"></div>
@@ -688,12 +941,28 @@
                     <div class="icon-wrapper icon-success">✔</div>
                     <h1>Immagine Caricata!</h1>
                     <p>La tua foto ad altissima risoluzione è pronta per essere salvata.</p>
-                    <button class="btn" onclick="downloadPhoto()">
-                        VISUALIZZA LA MIA FOTO
-                    </button>
+
+                    <div class="btn-group">
+                        <button class="btn" onclick="downloadPhoto()">
+                            VISUALIZZA LA MIA FOTO
+                        </button>
+                        <button class="btn btn-secondary" onclick="copyPhotoUrl()">
+                            📋 Copia Link Foto
+                        </button>
+                    </div>
                 </div>
 
             </div>
+        </div>
+    </div>
+
+    <!-- MODALE CUSTOM TIMEOUT SCADUTO -->
+    <div class="modal-overlay" id="timeoutModal">
+        <div class="modal-card">
+            <div class="modal-icon">⏳</div>
+            <div class="modal-title">Tempo Scaduto</div>
+            <div class="modal-desc">I 30 secondi a disposizione sono terminati senza che il codice venisse rilevato. Riprova quando sei pronto davanti allo schermo.</div>
+            <button class="btn" onclick="closeTimeoutModal()">Riprova</button>
         </div>
     </div>
 
@@ -704,14 +973,41 @@
         let urlLettoDalQR = "";
         let html5QrCodeScanner = null;
         let qrCodeInstance = null;
+        let isTorchOn = false;
         
         let scanTimer = null;
-        let timeLeft = 30; // Impostato a 30 secondi
+        let timeLeft = 30;
+        let currentStepNum = 1;
 
         /* ==========================================================================
-           GESTIONE CAMBIO STEP CON SCROLL AUTOMATICO IN ALTO
+           GESTIONE CAMBIO STEP CON AGGIORNAMENTO BARRA E SCROLL AUTOMATICO
            ========================================================================== */
-        function switchStep(currentStepId, nextStepId, callback = null) {
+        function updateProgressBar(stepNum) {
+            currentStepNum = stepNum;
+            for (let i = 1; i <= 5; i++) {
+                const dot = document.getElementById(`dot${i}`);
+                if (i <= stepNum) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            }
+
+            for (let i = 1; i <= 4; i++) {
+                const fill = document.getElementById(`fill${i}`);
+                if (i < stepNum) {
+                    fill.style.width = '100%';
+                } else {
+                    fill.style.width = '0%';
+                }
+            }
+        }
+
+        function switchStep(currentStepId, nextStepId, stepNum, callback = null) {
+            if (navigator.vibrate) {
+                navigator.vibrate(25);
+            }
+
             const currentStep = document.getElementById(currentStepId);
             const nextStep = document.getElementById(nextStepId);
 
@@ -729,7 +1025,8 @@
                 nextStep.style.transform = "scale(1) translateY(0)";
                 nextStep.style.filter = "blur(0)";
 
-                // Riporta il contenitore di scroll in alto ad ogni cambio di schermata
+                updateProgressBar(stepNum);
+
                 document.getElementById('scrollWrapper').scrollTo({ top: 0, behavior: 'smooth' });
 
                 if (callback) callback();
@@ -739,12 +1036,21 @@
         /* ==========================================================================
            NAVIGAZIONE
            ========================================================================== */
-        function goToStep2() {
-            switchStep('step1', 'step2');
+        function goToStep1() { 
+            stopTimer();
+            if (html5QrCodeScanner) html5QrCodeScanner.stop().catch(e => {});
+            switchStep(`step${currentStepNum}`, 'step1', 1); 
+        }
+        function goToStep2() { 
+            stopTimer();
+            if (html5QrCodeScanner) html5QrCodeScanner.stop().catch(e => {});
+            switchStep(`step${currentStepNum}`, 'step2', 2); 
         }
 
         function goToStep3() {
-            switchStep('step2', 'step3', () => {
+            stopTimer();
+            if (html5QrCodeScanner) html5QrCodeScanner.stop().catch(e => {});
+            switchStep(`step${currentStepNum}`, 'step3', 3, () => {
                 setTimeout(() => {
                     generateSecureQr();
                     document.getElementById('qrLoadingState').style.display = 'none';
@@ -754,7 +1060,22 @@
         }
 
         function goToStep4() {
-            switchStep('step3', 'step4', startScanner);
+            switchStep(`step${currentStepNum}`, 'step4', 4, startScanner);
+        }
+
+        /* ==========================================================================
+           FAQ ACCORDION TOGGLE
+           ========================================================================== */
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const span = element.querySelector('span:last-child');
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                span.innerText = "+";
+            } else {
+                answer.style.display = "block";
+                span.innerText = "-";
+            }
         }
 
         /* ==========================================================================
@@ -802,17 +1123,17 @@
         }
 
         /* ==========================================================================
-           INTEGRAZIONE FOTOCAMERA SCANNER E TIMER 30s
+           INTEGRAZIONE FOTOCAMERA SCANNER, TORCIA E TIMER
            ========================================================================== */
         function startScanner() {
             const loadingOverlay = document.getElementById('loadingOverlay');
             const laser = document.getElementById('laser');
+            const timerDisplay = document.getElementById('timerDisplay');
             
             loadingOverlay.classList.add('active');
             laser.style.display = 'none';
-
-            // Reset e Avvio del Timer di 30 secondi
-            resetAndStartTimer();
+            timerDisplay.classList.remove('warning');
+            timerDisplay.innerText = "Avvio fotocamera...";
 
             html5QrCodeScanner = new Html5Qrcode("reader");
 
@@ -829,24 +1150,44 @@
             ).then(() => {
                 loadingOverlay.classList.remove('active');
                 laser.style.display = 'block';
+                checkTorchSupport();
+                resetAndStartTimer();
             }).catch(err => {
                 console.error("Impossibile avviare fotocamera posteriore:", err);
                 html5QrCodeScanner.start({ facingMode: "user" }, config, onQrCodeSuccess)
                 .then(() => {
                     loadingOverlay.classList.remove('active');
                     laser.style.display = 'block';
+                    resetAndStartTimer();
                 })
                 .catch(() => {
-                    alert("Errore nell'accesso alla fotocamera. Assicurati di aver concesso i permessi.");
+                    timerDisplay.innerText = "Fotocamera non disponibile";
                     loadingOverlay.classList.remove('active');
-                    stopTimer();
                 });
             });
         }
 
+        function checkTorchSupport() {
+            try {
+                const capabilities = html5QrCodeScanner.getRunningTrackCapabilities();
+                if (capabilities.torch) {
+                    document.getElementById('torchBtn').style.display = 'block';
+                }
+            } catch(e) {}
+        }
+
+        function toggleTorch() {
+            if (html5QrCodeScanner) {
+                isTorchOn = !isTorchOn;
+                html5QrCodeScanner.applyVideoConstraints({
+                    advanced: [{ torch: isTorchOn }]
+                }).catch(e => console.log(e));
+            }
+        }
+
         function resetAndStartTimer() {
             stopTimer();
-            timeLeft = 30; // Countdown fissato a 30 secondi
+            timeLeft = 30;
             updateTimerDisplay();
 
             scanTimer = setInterval(() => {
@@ -871,23 +1212,33 @@
             const display = document.getElementById('timerDisplay');
             if (display) {
                 display.innerText = `Tempo rimasto: ${timeLeft}s`;
+                if (timeLeft <= 10) {
+                    display.classList.add('warning');
+                } else {
+                    display.classList.remove('warning');
+                }
             }
         }
 
         function handleScanTimeout() {
-            // Spegne la fotocamera se attiva
             if (html5QrCodeScanner) {
                 html5QrCodeScanner.stop().catch(err => console.log(err));
             }
+            document.getElementById('timeoutModal').classList.add('active');
+        }
 
-            alert("Tempo scaduto! Non è stato scansionato alcun codice entro 30 secondi. Verrai reindirizzato alle istruzioni.");
-            
-            // Ritorno automatico allo Step 2 (Istruzioni)
-            switchStep('step4', 'step2');
+        function closeTimeoutModal() {
+            document.getElementById('timeoutModal').classList.remove('active');
+            switchStep('step4', 'step2', 2);
         }
 
         function onQrCodeSuccess(decodedText, decodedResult) {
-            stopTimer(); // Ferma il timer appena il codice viene rilevato
+            stopTimer();
+            
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            }
+
             const laser = document.getElementById('laser');
             laser.style.display = 'none';
             
@@ -918,20 +1269,26 @@
                 successOverlay.classList.add('active');
 
                 setTimeout(() => {
-                    switchStep('step4', 'step5');
+                    switchStep('step4', 'step5', 5);
                 }, 1200);
 
             }, 1000);
         }
 
         /* ==========================================================================
-           DOWNLOAD FINALE
+           DOWNLOAD E UTILITIES FINALI
            ========================================================================== */
         function downloadPhoto() {
             if (urlLettoDalQR) {
                 window.open(urlLettoDalQR, "_blank");
-            } else {
-                alert("Nessun URL valido trovato dal QR Code.");
+            }
+        }
+
+        function copyPhotoUrl() {
+            if (urlLettoDalQR) {
+                navigator.clipboard.writeText(urlLettoDalQR).then(() => {
+                    alert("Link copiato negli appunti!");
+                }).catch(() => {});
             }
         }
 
