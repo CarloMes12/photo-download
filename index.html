@@ -167,18 +167,19 @@
             to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
 
-        /* BARRA DI PROGRESSO AVANZAMENTO STEP */
+        /* BARRA DI PROGRESSO AVANZAMENTO STEP (RESA PIÙ PICCOLA E DISCRETA) */
         .step-progress-bar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 24px;
-            padding: 0 10px;
+            margin: 0 auto 20px auto;
+            max-width: 220px;
+            padding: 0 5px;
         }
 
         .progress-dot {
-            width: 10px;
-            height: 10px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.2);
             transition: all 0.4s ease;
@@ -186,15 +187,15 @@
 
         .progress-dot.active {
             background: var(--accent-glow);
-            box-shadow: 0 0 10px var(--accent-glow);
-            transform: scale(1.3);
+            box-shadow: 0 0 8px var(--accent-glow);
+            transform: scale(1.2);
         }
 
         .progress-line {
             flex-grow: 1;
-            height: 2px;
+            height: 1.5px;
             background: rgba(255, 255, 255, 0.1);
-            margin: 0 8px;
+            margin: 0 6px;
             position: relative;
             overflow: hidden;
         }
@@ -225,7 +226,7 @@
         }
 
         /* ==========================================================================
-           ELEMENTI TIPOGRAFICI E LISTE ISTRUZIONI
+           ELEMENTI TIPOGRAFICI E RIQUADRO ISTRUZIONI
            ========================================================================== */
         .icon-wrapper {
             font-size: 56px;
@@ -246,7 +247,7 @@
         }
 
         h1 {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
             letter-spacing: -0.5px;
             margin-bottom: 12px;
@@ -262,76 +263,58 @@
             margin-bottom: 24px;
         }
 
-        /* Box Istruzioni Modulare e Spaziato */
-        .instruction-list {
-            text-align: left;
-            background: rgba(255, 255, 255, 0.03);
+        /* BOX ISTRUZIONI TERZO PASSAGGIO */
+        .instructions-box {
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
-            padding: 24px 20px;
-            margin-bottom: 28px;
+            padding: 20px 18px;
+            text-align: left;
+            margin-bottom: 24px;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .instructions-header {
             display: flex;
-            flex-direction: column;
-            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 16px;
+            text-align: center;
         }
 
         .instruction-item {
             display: flex;
             align-items: flex-start;
-            gap: 14px;
-        }
-
-        .badge {
-            background: linear-gradient(135deg, var(--accent-stripe), #4a00e0);
-            color: white;
-            font-weight: 700;
-            font-size: 13px;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            margin-top: 2px;
-            box-shadow: 0 4px 10px rgba(99, 91, 255, 0.3);
-        }
-
-        .instruction-text {
-            font-size: 14px;
-            color: #e2e2e5;
-            line-height: 1.5;
-        }
-
-        .instruction-text strong {
-            color: #ffffff;
-        }
-
-        .alert-box {
-            background: rgba(255, 69, 58, 0.1);
-            border: 1px solid rgba(255, 69, 58, 0.3);
-            border-radius: 16px;
-            padding: 16px;
-            text-align: left;
-            margin-bottom: 28px;
-            display: flex;
             gap: 12px;
-            align-items: center;
+            font-size: 13.5px;
+            color: #d1d1d6;
+            line-height: 1.45;
+            margin-bottom: 12px;
         }
 
-        .alert-icon {
-            font-size: 22px;
+        .instruction-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .instruction-item .icon {
+            font-size: 16px;
             flex-shrink: 0;
+            margin-top: 1px;
         }
 
-        .alert-text {
-            font-size: 13px;
-            color: #ff8e88;
-            line-height: 1.4;
-        }
-
-        .alert-text strong {
-            color: #ff453a;
+        .instruction-item.warning-item {
+            background: rgba(255, 69, 58, 0.08);
+            border: 1px solid rgba(255, 69, 58, 0.2);
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-top: 14px;
+            color: #ff9f8a;
+            font-size: 12.5px;
         }
 
         /* TIMER BADGE DINAMICO */
@@ -358,49 +341,6 @@
         @keyframes pulseWarning {
             0% { transform: scale(1); }
             100% { transform: scale(1.05); }
-        }
-
-        /* SEZIONE FAQ ACCORDION */
-        .faq-section {
-            margin-top: 24px;
-            margin-bottom: 28px;
-            text-align: left;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 20px;
-        }
-
-        .faq-title {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-
-        .faq-item {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            margin-bottom: 8px;
-            overflow: hidden;
-        }
-
-        .faq-question {
-            padding: 12px 16px;
-            font-size: 13px;
-            color: #ffffff;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .faq-answer {
-            padding: 0 16px 12px 16px;
-            font-size: 12px;
-            color: var(--text-muted);
-            display: none;
-            line-height: 1.4;
         }
 
         /* ==========================================================================
@@ -501,23 +441,6 @@
         /* ==========================================================================
            QR DISPLAY & SCANNER
            ========================================================================== */
-        .qr-display-container {
-            background: #ffffff;
-            padding: 16px;
-            border-radius: 20px;
-            display: inline-block;
-            margin: 0 auto 20px auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .qr-display-container img, 
-        .qr-display-container canvas {
-            display: block;
-            margin: 0 auto;
-            max-width: 100%;
-            height: auto;
-        }
-
         .scanner-container {
             position: relative;
             width: 280px;
@@ -682,7 +605,7 @@
         }
 
         /* ==========================================================================
-           MODALE CUSTOM PER TIMEOUT (SOSTITUIRÀ L'ALERT DEL BROWSER)
+           MODALE CUSTOM PER TIMEOUT
            ========================================================================== */
         .modal-overlay {
             position: fixed;
@@ -754,7 +677,7 @@
                 padding: 30px 20px 48px 20px;
                 border-radius: 24px;
             }
-            h1 { font-size: 24px; }
+            h1 { font-size: 22px; }
             p { font-size: 14px; }
         }
     </style>
@@ -774,131 +697,66 @@
         <div class="container">
             <div class="card">
                 
-                <!-- INDICATORE DI PROGRESSO AVANZAMENTO -->
+                <!-- INDICATORE DI PROGRESSO AVANZAMENTO (PIÙ PICCOLO E CON 3 STEP) -->
                 <div class="step-progress-bar">
                     <div class="progress-dot active" id="dot1"></div>
                     <div class="progress-line"><div class="progress-line-fill" id="fill1"></div></div>
                     <div class="progress-dot" id="dot2"></div>
                     <div class="progress-line"><div class="progress-line-fill" id="fill2"></div></div>
                     <div class="progress-dot" id="dot3"></div>
-                    <div class="progress-line"><div class="progress-line-fill" id="fill3"></div></div>
-                    <div class="progress-dot" id="dot4"></div>
-                    <div class="progress-line"><div class="progress-line-fill" id="fill4"></div></div>
-                    <div class="progress-dot" id="dot5"></div>
                 </div>
 
                 <!-- STEP 1: SCHERMATA GRAZIE CON PULSANTE CONTINUA -->
                 <div id="step1" class="step active">
                     <div class="icon-wrapper icon-success">✔</div>
                     <h1>Grazie per il tuo pagamento!</h1>
-                    <p>Il pagamento è andato a buon fine. Premi sul pulsante qui sotto per leggere le istruzioni ed accedere al tuo codice personale.</p>
+                    <p>Il pagamento è andato a buon fine. Premi sul pulsante qui sotto per vedere le istruzioni e accedere alla tua foto.</p>
                     
-                    <button class="btn" onclick="goToStep2()">
+                    <button class="btn" onclick="goToStepInstructions()">
                         Continua
                     </button>
                 </div>
 
-                <!-- STEP 2: ISTRUZIONI DI GUIDA DETTAGLIATE CON PIÙ SPAZIO -->
-                <div id="step2" class="step">
+                <!-- STEP 2: ISTRUZIONI SCANSIONE (TERZO PASSAGGIO) -->
+                <div id="stepInstructions" class="step">
                     <button class="back-btn" onclick="goToStep1()">← Indietro</button>
-                    <h1>Come riscattare la tua foto</h1>
-                    <p>Leggi attentamente questi brevi passaggi prima di proseguire:</p>
-
-                    <div class="instruction-list">
-                        <div class="instruction-item">
-                            <div class="badge">1</div>
-                            <div class="instruction-text">
-                                Nel prossimo passaggio ti mostreremo il tuo <strong>QR Code personale</strong>. Mostralo alla telecamera della postazione dove trovi scritto <strong>"Passaggio 1: Scansiona qui il tuo codice"</strong>.
-                            </div>
+                    
+                    <div class="instructions-box">
+                        <div class="instructions-header">
+                            Sei quasi arrivato! 🎃
                         </div>
-
+                        
                         <div class="instruction-item">
-                            <div class="badge">2</div>
-                            <div class="instruction-text">
-                                Appena la telecamera leggendolo farà un suono (un <strong>"BEEP"</strong>), riprendi lo smartphone e clicca subito sul tasto <strong>"Continua"</strong>.
-                            </div>
+                            <span class="icon">💻</span>
+                            <span>Avvicinati allo schermo dove è visualizzata la tua foto.</span>
                         </div>
-
+                        
                         <div class="instruction-item">
-                            <div class="badge">3</div>
-                            <div class="instruction-text">
-                                Cerca sullo schermo del dispositivo la sezione <strong>"Passaggio 2"</strong> e scansiona con il tuo telefono il piccolo codice QR che apparirà lì.
-                            </div>
+                            <span class="icon">📱</span>
+                            <span>Appena si attiva la fotocamera nel sito, inquadra il piccolo QR code nell'angolo in alto a sinistra della foto.</span>
                         </div>
-
+                        
                         <div class="instruction-item">
-                            <div class="badge">4</div>
-                            <div class="instruction-text">
-                                Una volta scansionato, clicca sul pulsante <strong>"Visualizza la mia foto"</strong> per scaricarla subito sul tuo telefono!
-                            </div>
+                            <span class="icon">⏱️</span>
+                            <span><strong>Attenzione:</strong> avrai 30 secondi per scansionarlo!</span>
+                        </div>
+                        
+                        <div class="instruction-item warning-item">
+                            <span class="icon">⚠️</span>
+                            <span>Non uscire dal sito e non usare l'app Fotocamera del telefono. Usa esclusivamente la fotocamera interna del sito.</span>
                         </div>
                     </div>
 
-                    <div class="alert-box">
-                        <div class="alert-icon">⚠️</div>
-                        <div class="alert-text">
-                            <strong>ATTENZIONE:</strong> Dal momento dell'avvio della fotocamera avrai esattamente <strong>30 secondi</strong> per scannerizzare il QR del Passaggio 2.
-                        </div>
-                    </div>
-
-                    <!-- SEZIONE FAQ -->
-                    <div class="faq-section">
-                        <div class="faq-title">Hai bisogno di aiuto?</div>
-                        <div class="faq-item">
-                            <div class="faq-question" onclick="toggleFaq(this)">
-                                <span>La fotocamera non si apre?</span>
-                                <span>+</span>
-                            </div>
-                            <div class="faq-answer">
-                                Assicurati di aver dato i permessi per la fotocamera al tuo browser (Safari/Chrome). Se bloccata, ricarica la pagina e concedi i permessi.
-                            </div>
-                        </div>
-                        <div class="faq-item">
-                            <div class="faq-question" onclick="toggleFaq(this)">
-                                <span>Non sento il "Beep"?</span>
-                                <span>+</span>
-                            </div>
-                            <div class="faq-answer">
-                                Assicurati che il tuo telefono non sia in modalità silenziosa e alza il volume dei media.
-                            </div>
-                        </div>
-                    </div>
-
-                    <button class="btn" onclick="goToStep3()">
-                        Ho capito, Genera il QR
+                    <button class="btn" onclick="goToStep4()">
+                        Apri Fotocamera e Scansiona
                     </button>
                 </div>
 
-                <!-- STEP 3: VISUALIZZAZIONE QR CODE PERSONALE -->
-                <div id="step3" class="step">
-                    <button class="back-btn" onclick="goToStep2()">← Torna alle istruzioni</button>
-                    
-                    <!-- Stato di Caricamento QR -->
-                    <div id="qrLoadingState">
-                        <div class="spinner" style="margin: 20px auto;"></div>
-                        <h1>Generazione in corso...</h1>
-                        <p>Creazione del tuo codice unico crittografato.</p>
-                    </div>
-
-                    <!-- Stato QR Pronto -->
-                    <div id="qrReadyState" style="display: none;">
-                        <h1>Il tuo QR personale</h1>
-                        <div class="qr-display-container">
-                            <div id="qrcode"></div>
-                        </div>
-                        <p style="margin-bottom: 24px; font-size: 14px;">Mostra questo codice al lettore <strong>Passaggio 1</strong> fino al "Beep", poi premi Continua.</p>
-                        
-                        <button class="btn" onclick="goToStep4()">
-                            Continua (Passaggio 2)
-                        </button>
-                    </div>
-                </div>
-
-                <!-- STEP 4: SCANNER FOTOCAMERA (Passaggio 2 Foto) -->
+                <!-- STEP 4: SCANNER FOTOCAMERA -->
                 <div id="step4" class="step">
-                    <button class="back-btn" onclick="goToStep3()">← Torna al QR personale</button>
+                    <button class="back-btn" onclick="goToStepInstructions()">← Indietro</button>
                     <h1>Inquadra il QR della Foto</h1>
-                    <p>Inquadra il piccolo QR code mostrato sullo schermo nella sezione <strong>Passaggio 2</strong>.</p>
+                    <p>Inquadra il piccolo QR code mostrato sullo schermo nell'angolo della tua foto.</p>
 
                     <!-- CONTO ALLA ROVESCIA DI 30 SECONDI -->
                     <div class="timer-badge" id="timerDisplay">In attesa della fotocamera...</div>
@@ -972,44 +830,44 @@
            ========================================================================== */
         let urlLettoDalQR = "";
         let html5QrCodeScanner = null;
-        let qrCodeInstance = null;
         let isTorchOn = false;
         
         let scanTimer = null;
         let timeLeft = 30;
-        let currentStepNum = 1;
+        let currentStepId = 'step1';
 
         /* ==========================================================================
            GESTIONE CAMBIO STEP CON AGGIORNAMENTO BARRA E SCROLL AUTOMATICO
            ========================================================================== */
         function updateProgressBar(stepNum) {
-            currentStepNum = stepNum;
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 3; i++) {
                 const dot = document.getElementById(`dot${i}`);
-                if (i <= stepNum) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
+                if (dot) {
+                    if (i <= stepNum) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
                 }
             }
 
-            for (let i = 1; i <= 4; i++) {
-                const fill = document.getElementById(`fill${i}`);
-                if (i < stepNum) {
-                    fill.style.width = '100%';
-                } else {
-                    fill.style.width = '0%';
-                }
-            }
+            const fill1 = document.getElementById('fill1');
+            const fill2 = document.getElementById('fill2');
+
+            if (stepNum >= 2 && fill1) fill1.style.width = '100%';
+            else if (fill1) fill1.style.width = '0%';
+
+            if (stepNum >= 3 && fill2) fill2.style.width = '100%';
+            else if (fill2) fill2.style.width = '0%';
         }
 
-        function switchStep(currentStepId, nextStepId, stepNum, callback = null) {
+        function switchStep(targetStepId, stepNum, callback = null) {
             if (navigator.vibrate) {
                 navigator.vibrate(25);
             }
 
             const currentStep = document.getElementById(currentStepId);
-            const nextStep = document.getElementById(nextStepId);
+            const nextStep = document.getElementById(targetStepId);
 
             currentStep.style.opacity = "0";
             currentStep.style.transform = "scale(0.95) translateY(-10px)";
@@ -1025,6 +883,7 @@
                 nextStep.style.transform = "scale(1) translateY(0)";
                 nextStep.style.filter = "blur(0)";
 
+                currentStepId = targetStepId;
                 updateProgressBar(stepNum);
 
                 document.getElementById('scrollWrapper').scrollTo({ top: 0, behavior: 'smooth' });
@@ -1039,87 +898,17 @@
         function goToStep1() { 
             stopTimer();
             if (html5QrCodeScanner) html5QrCodeScanner.stop().catch(e => {});
-            switchStep(`step${currentStepNum}`, 'step1', 1); 
-        }
-        function goToStep2() { 
-            stopTimer();
-            if (html5QrCodeScanner) html5QrCodeScanner.stop().catch(e => {});
-            switchStep(`step${currentStepNum}`, 'step2', 2); 
+            switchStep('step1', 1); 
         }
 
-        function goToStep3() {
+        function goToStepInstructions() {
             stopTimer();
             if (html5QrCodeScanner) html5QrCodeScanner.stop().catch(e => {});
-            switchStep(`step${currentStepNum}`, 'step3', 3, () => {
-                setTimeout(() => {
-                    generateSecureQr();
-                    document.getElementById('qrLoadingState').style.display = 'none';
-                    document.getElementById('qrReadyState').style.display = 'block';
-                }, 1200);
-            });
+            switchStep('stepInstructions', 2);
         }
 
         function goToStep4() {
-            switchStep(`step${currentStepNum}`, 'step4', 4, startScanner);
-        }
-
-        /* ==========================================================================
-           FAQ ACCORDION TOGGLE
-           ========================================================================== */
-        function toggleFaq(element) {
-            const answer = element.nextElementSibling;
-            const span = element.querySelector('span:last-child');
-            if (answer.style.display === "block") {
-                answer.style.display = "none";
-                span.innerText = "+";
-            } else {
-                answer.style.display = "block";
-                span.innerText = "-";
-            }
-        }
-
-        /* ==========================================================================
-           GENERAZIONE CRITTOGRAFICA QR CODE
-           ========================================================================== */
-        function generateSecureRandomString(length) {
-            const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            const randomValues = new Uint8Array(length);
-            window.crypto.getRandomValues(randomValues);
-            
-            let result = "";
-            for (let i = 0; i < length; i++) {
-                result += charset[randomValues[i] % charset.length];
-            }
-            return result;
-        }
-
-        function generateSecureQr() {
-            const now = new Date();
-            
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const dateStr = `${year}-${month}-${day}`;
-
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            const timeStr = `${hours}-${minutes}-${seconds}`;
-
-            const randomSecureStr = generateSecureRandomString(160);
-            const finalQrString = `CARLO2026/${dateStr}/${timeStr}/${randomSecureStr}`;
-
-            const qrContainer = document.getElementById("qrcode");
-            qrContainer.innerHTML = "";
-
-            qrCodeInstance = new QRCode(qrContainer, {
-                text: finalQrString,
-                width: 230,
-                height: 230,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
+            switchStep('step4', 2, startScanner);
         }
 
         /* ==========================================================================
@@ -1229,7 +1018,7 @@
 
         function closeTimeoutModal() {
             document.getElementById('timeoutModal').classList.remove('active');
-            switchStep('step4', 'step2', 2);
+            goToStepInstructions();
         }
 
         function onQrCodeSuccess(decodedText, decodedResult) {
@@ -1269,7 +1058,7 @@
                 successOverlay.classList.add('active');
 
                 setTimeout(() => {
-                    switchStep('step4', 'step5', 5);
+                    switchStep('step5', 3);
                 }, 1200);
 
             }, 1000);
