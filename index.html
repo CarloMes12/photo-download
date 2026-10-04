@@ -3,33 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Photo Booth Premium Download</title>
+    <title>Premium Download</title>
     
     <!-- Google Fonts Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Libreria per la lettura del QR Code -->
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-    
-    <!-- Libreria per la generazione sicura del QR Code -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
     <style>
         :root {
-            --bg-dark: #07090e;
-            --accent-stripe: #635bff;
-            --accent-glow: #8075ff;
+            /* Tema Halloween Elegante e Scuro */
+            --bg-dark: #0f0a18;
+            --accent-stripe: #ff6b00;
+            --accent-glow: #ff8800;
+            --accent-purple: #8b5cf6;
             --accent-emerald: #10b981;
-            --accent-emerald-glow: rgba(16, 185, 129, 0.4);
+            --accent-red: #ef4444;
             --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --text-dim: #64748b;
-            --glass-bg: rgba(18, 24, 38, 0.65);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --glass-border-hover: rgba(128, 117, 255, 0.4);
-            --glass-glow: rgba(99, 91, 255, 0.25);
+            --text-muted: #cbd5e1;
+            --text-dim: #94a3b8;
+            --glass-bg: rgba(26, 16, 43, 0.75);
+            --glass-border: rgba(255, 107, 0, 0.2);
+            --glass-border-hover: rgba(255, 136, 0, 0.5);
             --card-radius: 28px;
         }
 
@@ -52,13 +47,14 @@
             -webkit-user-select: none;
         }
 
+        /* Sfondo Ambientale Halloween Elegante */
         .ambient-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: radial-gradient(circle at 50% 0%, #131728 0%, #07090e 70%);
+            background: radial-gradient(circle at 50% 10%, #2a1545 0%, #0f0a18 80%);
             z-index: 1;
             overflow: hidden;
             pointer-events: none;
@@ -67,8 +63,8 @@
         .ambient-grid {
             position: absolute;
             inset: 0;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-image: linear-gradient(to right, rgba(255, 107, 0, 0.04) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 107, 0, 0.04) 1px, transparent 1px);
             background-size: 40px 40px;
             mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 80%);
             -webkit-mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 80%);
@@ -77,8 +73,8 @@
         .glow-orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.5;
+            filter: blur(110px);
+            opacity: 0.45;
             mix-blend-mode: screen;
             pointer-events: none;
             animation: floatOrb 22s infinite alternate ease-in-out;
@@ -87,7 +83,7 @@
         .orb-1 {
             width: 550px;
             height: 550px;
-            background: radial-gradient(circle, var(--accent-stripe) 0%, rgba(99, 91, 255, 0) 70%);
+            background: radial-gradient(circle, #ff6b00 0%, rgba(255, 107, 0, 0) 70%);
             top: -15%;
             left: -10%;
             animation-duration: 25s;
@@ -96,7 +92,7 @@
         .orb-2 {
             width: 650px;
             height: 650px;
-            background: radial-gradient(circle, #4f46e5 0%, rgba(79, 70, 229, 0) 70%);
+            background: radial-gradient(circle, #6b21a8 0%, rgba(107, 33, 168, 0) 70%);
             bottom: -20%;
             right: -10%;
             animation-duration: 30s;
@@ -106,7 +102,7 @@
         .orb-3 {
             width: 450px;
             height: 450px;
-            background: radial-gradient(circle, #06b6d4 0%, rgba(6, 182, 212, 0) 70%);
+            background: radial-gradient(circle, #d97706 0%, rgba(217, 119, 6, 0) 70%);
             top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -151,7 +147,7 @@
             padding-bottom: 20px;
         }
 
-        /* GLASS CARD CONTAINERS */
+        /* CARD GLASSMORPHISM */
         .card {
             background: var(--glass-bg);
             backdrop-filter: blur(30px);
@@ -160,9 +156,8 @@
             border-radius: var(--card-radius);
             padding: 36px 30px 40px 30px;
             text-align: center;
-            box-shadow: 0 30px 100px -20px rgba(0, 0, 0, 0.8),
-                        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-                        0 2px 20px rgba(255, 255, 255, 0.03) inset;
+            box-shadow: 0 30px 100px -20px rgba(0, 0, 0, 0.9),
+                        0 0 0 1px rgba(255, 107, 0, 0.1) inset;
             position: relative;
             overflow: hidden;
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
@@ -177,7 +172,7 @@
             inset: 0;
             border-radius: var(--card-radius);
             padding: 1px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.02) 50%, rgba(99,91,255,0.3) 100%);
+            background: linear-gradient(135deg, rgba(255,107,0,0.3) 0%, rgba(255,255,255,0.02) 50%, rgba(139,92,246,0.3) 100%);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
             mask-composite: exclude;
@@ -186,9 +181,8 @@
 
         .card:hover {
             border-color: var(--glass-border-hover);
-            box-shadow: 0 30px 100px -10px rgba(99, 91, 255, 0.2),
-                        0 0 30px rgba(99, 91, 255, 0.15),
-                        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            box-shadow: 0 30px 100px -10px rgba(255, 107, 0, 0.2),
+                        0 0 30px rgba(255, 107, 0, 0.15);
         }
 
         @keyframes cardEntrance {
@@ -205,7 +199,7 @@
             align-items: center;
             justify-content: space-between;
             margin: 0 auto 10px auto;
-            max-width: 260px;
+            max-width: 320px;
             padding: 0 4px;
         }
 
@@ -223,7 +217,7 @@
         .progress-dot.active {
             background: var(--accent-stripe);
             border-color: #ffffff;
-            box-shadow: 0 0 15px var(--accent-stripe), 0 0 30px rgba(99, 91, 255, 0.6);
+            box-shadow: 0 0 15px var(--accent-stripe), 0 0 25px rgba(255, 107, 0, 0.6);
             transform: scale(1.25);
         }
 
@@ -231,7 +225,7 @@
             flex-grow: 1;
             height: 2px;
             background: rgba(255, 255, 255, 0.08);
-            margin: 0 8px;
+            margin: 0 4px;
             position: relative;
             border-radius: 2px;
             overflow: hidden;
@@ -248,12 +242,12 @@
         .step-labels {
             display: flex;
             justify-content: space-between;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
             letter-spacing: 0.5px;
             text-transform: uppercase;
             color: var(--text-dim);
-            max-width: 280px;
+            max-width: 340px;
             margin: 0 auto;
         }
 
@@ -301,7 +295,21 @@
             color: #10b981;
             border-color: rgba(16, 185, 129, 0.3);
             background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.02) 100%);
-            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.25), inset 0 1px 0 rgba(255,255,255,0.2);
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.25);
+        }
+
+        .icon-code {
+            color: var(--accent-stripe);
+            border-color: rgba(255, 107, 0, 0.3);
+            background: radial-gradient(circle at 50% 50%, rgba(255, 107, 0, 0.15) 0%, rgba(255, 107, 0, 0.02) 100%);
+            box-shadow: 0 12px 30px rgba(255, 107, 0, 0.25);
+        }
+
+        .icon-info {
+            color: #3b82f6;
+            border-color: rgba(59, 130, 246, 0.3);
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.02) 100%);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.25);
         }
 
         @keyframes pulseIcon {
@@ -328,91 +336,146 @@
             font-weight: 400;
         }
 
-        /* INSTRUCTIONS CARD */
-        .instructions-box {
-            background: rgba(10, 14, 23, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 22px 20px;
+        /* LISTA ISTRUZIONI */
+        .instructions-list {
             text-align: left;
-            margin-bottom: 24px;
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05),
-                        0 10px 20px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
-        .instructions-header {
+            margin-bottom: 20px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-size: 16px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 18px;
-            text-align: center;
-            letter-spacing: -0.3px;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .instruction-item {
+            background: rgba(10, 7, 18, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 14px 16px;
             display: flex;
+            gap: 14px;
             align-items: flex-start;
-            gap: 12px;
-            font-size: 13.5px;
-            color: #cbd5e1;
-            line-height: 1.5;
-            margin-bottom: 14px;
         }
 
-        .instruction-item:last-child {
+        .instruction-number {
+            background: linear-gradient(135deg, var(--accent-stripe) 0%, #d95300 100%);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 14px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(255, 107, 0, 0.3);
+        }
+
+        .instruction-content h3 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 3px;
+        }
+
+        .instruction-content p {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.45;
             margin-bottom: 0;
         }
 
-        .instruction-item .icon {
-            font-size: 18px;
+        /* BANNER DI AVVERTIMENTO ROSSO */
+        .warning-banner {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: left;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.15);
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .warning-icon {
+            color: var(--accent-red);
             flex-shrink: 0;
-            line-height: 1;
-            margin-top: 1px;
+            margin-top: 2px;
         }
 
-        .instruction-item.warning-item {
-            background: rgba(239, 68, 68, 0.08);
-            border: 1px solid rgba(239, 68, 68, 0.25);
-            border-radius: 14px;
-            padding: 12px 14px;
-            margin-top: 16px;
-            color: #fca5a5;
+        .warning-text {
             font-size: 12.5px;
-        }
-
-        /* TIMER BADGE */
-        .timer-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-            padding: 8px 18px;
-            border-radius: 100px;
-            font-size: 13.5px;
-            font-weight: 600;
-            margin-bottom: 18px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .timer-badge.warning {
-            background: rgba(239, 68, 68, 0.18);
-            border-color: rgba(239, 68, 68, 0.5);
             color: #fca5a5;
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
-            animation: pulseWarning 1s infinite alternate cubic-bezier(0.16, 1, 0.3, 1);
+            line-height: 1.5;
         }
 
-        @keyframes pulseWarning {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.04); }
+        .warning-text strong {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        /* CAMPO INPUT ED ELEMENTI FORM CODICE */
+        .input-box-wrapper {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--accent-stripe);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .code-input {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 16px;
+            background: rgba(10, 7, 18, 0.7);
+            border: 2px solid rgba(255, 107, 0, 0.3);
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-align: center;
+            outline: none;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .code-input:focus {
+            border-color: var(--accent-stripe);
+            box-shadow: 0 0 20px rgba(255, 107, 0, 0.3), inset 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .error-text {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .code-preview-box {
+            background: rgba(10, 7, 18, 0.7);
+            border: 1px solid rgba(255, 107, 0, 0.4);
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .code-preview-value {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: #ffffff;
+            margin-top: 6px;
+            word-break: break-all;
         }
 
         .btn-group {
@@ -427,7 +490,7 @@
             padding: 16px 28px;
             border-radius: 100px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            background: linear-gradient(135deg, #635bff 0%, #4338ca 100%);
+            background: linear-gradient(135deg, #ff6b00 0%, #d95300 100%);
             color: #ffffff;
             font-size: 15px;
             font-weight: 600;
@@ -435,7 +498,7 @@
             cursor: pointer;
             outline: none;
             overflow: hidden;
-            box-shadow: 0 8px 24px -4px rgba(99, 91, 255, 0.5), 
+            box-shadow: 0 8px 24px -4px rgba(255, 107, 0, 0.5), 
                         inset 0 1px 0 rgba(255, 255, 255, 0.3);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
@@ -455,7 +518,6 @@
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.12);
             border-color: rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
         }
 
         .btn::after {
@@ -482,14 +544,11 @@
 
         .btn:hover {
             transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 12px 32px -4px rgba(99, 91, 255, 0.7), 
-                        0 0 20px rgba(128, 117, 255, 0.4),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            box-shadow: 0 12px 32px -4px rgba(255, 107, 0, 0.7);
         }
 
         .btn:active {
             transform: translateY(1px) scale(0.98);
-            box-shadow: 0 4px 12px rgba(99, 91, 255, 0.4);
         }
 
         .back-btn {
@@ -514,286 +573,17 @@
             border-color: rgba(255, 255, 255, 0.2);
         }
 
-        .scanner-container {
-            position: relative;
-            width: 270px;
-            height: 270px;
-            margin: 0 auto 20px auto;
-            border-radius: 24px;
-            overflow: hidden;
-            background: #000000;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6),
-                        0 0 0 1px rgba(99, 91, 255, 0.2);
-        }
-
-        #reader {
-            width: 100% !important;
-            height: 100% !important;
-            border: none !important;
-        }
-
-        #reader video {
-            width: 100% !important;
-            height: 100% !important;
-            object-fit: cover !important;
-        }
-
-        .scanner-frame {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 5;
-        }
-
-        .corner {
-            position: absolute;
-            width: 26px;
-            height: 26px;
-            border: 3.5px solid transparent;
-            filter: drop-shadow(0 0 6px var(--accent-glow));
-        }
-
-        .top-left { 
-            top: 16px; left: 16px; 
-            border-top-color: var(--accent-glow); 
-            border-left-color: var(--accent-glow); 
-            border-top-left-radius: 12px;
-        }
-        .top-right { 
-            top: 16px; right: 16px; 
-            border-top-color: var(--accent-glow); 
-            border-right-color: var(--accent-glow); 
-            border-top-right-radius: 12px;
-        }
-        .bottom-left { 
-            bottom: 16px; left: 16px; 
-            border-bottom-color: var(--accent-glow); 
-            border-left-color: var(--accent-glow); 
-            border-bottom-left-radius: 12px;
-        }
-        .bottom-right { 
-            bottom: 16px; right: 16px; 
-            border-bottom-color: var(--accent-glow); 
-            border-right-color: var(--accent-glow); 
-            border-bottom-right-radius: 12px;
-        }
-
-        .scan-laser {
-            position: absolute;
-            top: 0;
-            left: 8%;
-            width: 84%;
-            height: 2.5px;
-            background: linear-gradient(90deg, rgba(99,91,255,0) 0%, var(--accent-glow) 50%, rgba(99,91,255,0) 100%);
-            box-shadow: 0 0 15px var(--accent-glow), 0 0 5px #ffffff;
-            z-index: 4;
-            animation: laserScan 2s ease-in-out infinite alternate;
-            display: none;
-        }
-
-        @keyframes laserScan {
-            0% { top: 12%; opacity: 0.3; }
-            50% { opacity: 1; }
-            100% { top: 88%; opacity: 0.3; }
-        }
-
-        /* SCANNER OVERLAYS */
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(7, 9, 14, 0.88);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 6;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            backdrop-filter: blur(12px);
-        }
-
-        .loading-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .spinner {
-            width: 42px;
-            height: 42px;
-            border: 3px solid rgba(255, 255, 255, 0.08);
-            border-top-color: var(--accent-stripe);
-            border-right-color: var(--accent-glow);
-            border-radius: 50%;
-            animation: spin 0.8s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
-            margin-bottom: 16px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .progress-bar-container {
-            width: 160px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 16px;
-        }
-
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-stripe), var(--accent-glow));
-            border-radius: 10px;
-            transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .loading-text {
-            font-size: 13.5px;
-            color: #e2e8f0;
-            font-weight: 500;
-            letter-spacing: -0.1px;
-        }
-
-        .success-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(7, 9, 14, 0.92);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 7;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            backdrop-filter: blur(12px);
-        }
-
-        .success-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .torch-btn {
-            position: absolute;
-            bottom: 14px;
-            right: 14px;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 6px 14px;
-            border-radius: 100px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            backdrop-filter: blur(8px);
-            display: none;
-            transition: all 0.2s ease;
-        }
-
-        .torch-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-card {
-            background: rgba(18, 22, 34, 0.95);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 28px;
-            padding: 36px 28px;
-            max-width: 380px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9),
-                        0 0 40px rgba(239, 68, 68, 0.15);
-            transform: scale(0.9) translateY(20px);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .modal-overlay.active .modal-card {
-            transform: scale(1) translateY(0);
-        }
-
-        .modal-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 20px;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            margin: 0 auto 18px auto;
-        }
-
-        .modal-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 10px;
-            letter-spacing: -0.4px;
-        }
-
-        .modal-desc {
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.55;
-            margin-bottom: 26px;
-        }
-
         @media(max-width: 480px) {
             .main-scroll-wrapper {
                 padding: 20px 12px 60px 12px;
             }
             .card {
-                padding: 30px 22px 36px 22px;
+                padding: 30px 20px 36px 20px;
                 border-radius: 24px;
             }
             h1 { font-size: 22px; }
             p { font-size: 14px; }
-            .scanner-container {
-                width: 240px;
-                height: 240px;
-            }
+            .step-labels { font-size: 9px; }
         }
     </style>
 </head>
@@ -811,7 +601,7 @@
         <div class="container">
             <div class="card">
                 
-                <!-- INDICATORE DI PROGRESSO AVANZAMENTO -->
+                <!-- INDICATORE DI PROGRESSO A 4 STEP -->
                 <div class="step-progress-wrapper">
                     <div class="step-progress-bar">
                         <div class="progress-dot active" id="dot1"></div>
@@ -819,11 +609,14 @@
                         <div class="progress-dot" id="dot2"></div>
                         <div class="progress-line"><div class="progress-line-fill" id="fill2"></div></div>
                         <div class="progress-dot" id="dot3"></div>
+                        <div class="progress-line"><div class="progress-line-fill" id="fill3"></div></div>
+                        <div class="progress-dot" id="dot4"></div>
                     </div>
                     <div class="step-labels">
                         <span id="label1" class="active">Conferma</span>
-                        <span id="label2">Scansione</span>
-                        <span id="label3">Download</span>
+                        <span id="label2">Istruzioni</span>
+                        <span id="label3">Codice</span>
+                        <span id="label4">Download</span>
                     </div>
                 </div>
 
@@ -833,7 +626,7 @@
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                     </div>
                     <h1>Grazie per il tuo pagamento!</h1>
-                    <p>Il pagamento è andato a buon fine. Premi sul pulsante qui sotto per vedere le istruzioni e accedere alla tua foto.</p>
+                    <p>Il pagamento è andato a buon fine. Premi sul pulsante qui sotto per leggere le istruzioni e accedere alla tua foto.</p>
                     
                     <button class="btn" onclick="goToStepInstructions()">
                         <span>Continua</span>
@@ -841,145 +634,198 @@
                     </button>
                 </div>
 
-                <!-- STEP 2: ISTRUZIONI SCANSIONE -->
+                <!-- STEP 2: ISTRUZIONI -->
                 <div id="stepInstructions" class="step">
                     <button class="back-btn" onclick="goToStep1()">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                         <span>Indietro</span>
                     </button>
+
+                    <div class="icon-wrapper icon-info">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    </div>
+
+                    <h1>Istruzioni</h1>
                     
-                    <div class="instructions-box">
-                        <div class="instructions-header">
-                            Sei quasi arrivato! 🎃
-                        </div>
-                        
+                    <div class="instructions-list">
                         <div class="instruction-item">
-                            <span class="icon">💻</span>
-                            <span>Avvicinati allo schermo dove è visualizzata la tua foto.</span>
+                            <div class="instruction-number">1</div>
+                            <div class="instruction-content">
+                                <h3>Inserisci il codice</h3>
+                                <p>Nella prossima pagina dovrai inserire il codice alfanumerico che vedi sullo schermo, vicino ai pulsanti.</p>
+                            </div>
                         </div>
-                        
+
                         <div class="instruction-item">
-                            <span class="icon">📱</span>
-                            <span>Appena si attiva la fotocamera nel sito, inquadra il piccolo QR code nell'angolo in alto a sinistra della foto.</span>
+                            <div class="instruction-number">2</div>
+                            <div class="instruction-content">
+                                <h3>Conferma il codice</h3>
+                                <p>Dopo averlo inserito, controlla attentamente che il codice sia corretto e premi “Conferma”.</p>
+                            </div>
                         </div>
-                        
+
                         <div class="instruction-item">
-                            <span class="icon">⏱️</span>
-                            <span><strong>Attenzione:</strong> avrai 30 secondi per scansionarlo!</span>
-                        </div>
-                        
-                        <div class="instruction-item warning-item">
-                            <span class="icon">⚠️</span>
-                            <span>Non uscire dal sito e non usare l'app Fotocamera del telefono. Usa esclusivamente la fotocamera interna del sito.</span>
+                            <div class="instruction-number">3</div>
+                            <div class="instruction-content">
+                                <h3>Scarica la tua foto</h3>
+                                <p>Dopo la conferma potrai scaricare direttamente la tua foto dal link oppure copiare il collegamento e inviarlo ai tuoi amici.</p>
+                            </div>
                         </div>
                     </div>
 
-                    <button class="btn" onclick="goToStep4()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                        <span>Apri Fotocamera e Scansiona</span>
+                    <!-- BANNER ROSSO DI AVVERTIMENTO -->
+                    <div class="warning-banner">
+                        <div class="warning-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        </div>
+                        <div class="warning-text">
+                            <strong>Attenzione:</strong> una volta confermato il codice, non potrà più essere modificato. Assicurati quindi che il codice inserito sia corretto prima di procedere.<br>
+                            Se il codice è errato, potresti non riuscire ad accedere correttamente alla tua foto.
+                        </div>
+                    </div>
+
+                    <button class="btn" onclick="goToStepInput()">
+                        <span>Ho capito, procedi</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </button>
                 </div>
 
-                <!-- STEP 4: SCANNER FOTOCAMERA -->
-                <div id="step4" class="step">
+                <!-- STEP 3: INSERIMENTO CODICE FOTO -->
+                <div id="stepInput" class="step">
                     <button class="back-btn" onclick="goToStepInstructions()">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                        <span>Indietro</span>
+                        <span>Istruzioni</span>
                     </button>
-                    <h1>Inquadra il QR della Foto</h1>
-                    <p style="margin-bottom: 16px;">Inquadra il piccolo QR code mostrato sullo schermo nell'angolo della tua foto.</p>
 
-                    <!-- CONTO ALLA ROVESCIA -->
-                    <div class="timer-badge" id="timerDisplay">In attesa della fotocamera...</div>
+                    <div class="icon-wrapper icon-code">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><line x1="7" y1="8" x2="17" y2="8"></line><line x1="7" y1="12" x2="13" y2="12"></line></svg>
+                    </div>
+                    
+                    <h1>Inserisci il Codice Foto</h1>
+                    <p>Inserisci il codice di 5-20 caratteri mostrato sullo schermo per riscattare la tua foto.</p>
 
-                    <div class="scanner-container">
-                        <div id="reader"></div>
-                        
-                        <button id="torchBtn" class="torch-btn" onclick="toggleTorch()">🔦 Luce</button>
+                    <div class="input-box-wrapper">
+                        <label class="input-label" for="codeInput">Codice Foto:</label>
+                        <input type="text" id="codeInput" class="code-input" placeholder="Es. ABC123" maxlength="20" autocomplete="off" spellcheck="false" oninput="handleCodeInput(this)">
+                        <div class="error-text" id="inputError">Inserisci un codice valido (da 5 a 20 caratteri).</div>
+                    </div>
 
-                        <div class="scanner-frame">
-                            <div class="corner top-left"></div>
-                            <div class="corner top-right"></div>
-                            <div class="corner bottom-left"></div>
-                            <div class="corner bottom-right"></div>
-                            <div class="scan-laser" id="laser"></div>
-                        </div>
+                    <button class="btn" onclick="submitCode()">
+                        <span>Conferma</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                </div>
 
-                        <div id="loadingOverlay" class="loading-overlay">
-                            <div class="spinner"></div>
-                            <div class="loading-text">Avvio fotocamera...</div>
-                        </div>
+                <!-- STEP 3.5 (CONFERMA/RIEPILOGO) -->
+                <div id="stepConfirm" class="step">
+                    <div class="icon-wrapper icon-code">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                    
+                    <h1>Verifica il Codice</h1>
+                    <p>Controlla che il codice inserito sia corretto prima di procedere.</p>
 
-                        <div id="analysisOverlay" class="loading-overlay">
-                            <div class="spinner" style="border-top-color: var(--accent-glow);"></div>
-                            <div class="loading-text">Analisi del QR...</div>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar" id="analysisBar"></div>
-                            </div>
-                        </div>
+                    <div class="code-preview-box">
+                        <span style="font-size: 12px; color: var(--text-dim); text-transform: uppercase; font-weight: 600;">Codice Digitato:</span>
+                        <div class="code-preview-value" id="displayEnteredCode">------</div>
+                    </div>
 
-                        <div id="successOverlay" class="success-overlay">
-                            <div class="icon-wrapper icon-success" style="width: 56px; height: 56px; border-radius: 16px; margin-bottom: 12px;">
-                                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            </div>
-                            <div class="loading-text" style="color: #10b981; font-weight: 600;">QR Rilevato!</div>
-                        </div>
+                    <div class="btn-group">
+                        <button class="btn" onclick="confirmCodeAndGenerateUrl()">
+                            <span>Conferma codice</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="editCode()">
+                            <span>Modifica codice</span>
+                        </button>
                     </div>
                 </div>
 
-                <!-- STEP 5: DOWNLOAD FINALE FOTO -->
-                <div id="step5" class="step">
+                <!-- STEP 4: SCHERMATA FINALE CON COLLEGAMENTO -->
+                <div id="stepFinal" class="step">
                     <div class="icon-wrapper icon-success">
                         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                     </div>
-                    <h1>Immagine Caricata!</h1>
-                    <p>La tua foto ad altissima risoluzione è pronta per essere salvata.</p>
+                    <h1>Foto Pronta!</h1>
+                    <p>Il collegamento alla tua foto ad alta risoluzione è stato generato con successo.</p>
 
                     <div class="btn-group">
-                        <button class="btn" onclick="downloadPhoto()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 8px 24px -4px rgba(16, 185, 129, 0.5);">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                            <span>VISUALIZZA LA MIA FOTO</span>
+                        <button class="btn" onclick="openGeneratedUrl()" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); box-shadow: 0 8px 24px -4px rgba(16, 185, 129, 0.5);">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            <span>Apri collegamento</span>
                         </button>
-                        <button class="btn btn-secondary" onclick="copyPhotoUrl()">
+                        <button class="btn btn-secondary" onclick="copyGeneratedUrl()">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                            <span>Copia Link Foto</span>
+                            <span>Copia collegamento</span>
                         </button>
                     </div>
                 </div>
 
             </div>
-        </div>
-    </div>
-
-    <!-- MODALE CUSTOM TIMEOUT SCADUTO -->
-    <div class="modal-overlay" id="timeoutModal">
-        <div class="modal-card">
-            <div class="modal-icon">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-            </div>
-            <div class="modal-title">Tempo Scaduto</div>
-            <div class="modal-desc">I 30 secondi a disposizione sono terminati senza che il codice venisse rilevato. Riprova quando sei pronto davanti allo schermo.</div>
-            <button class="btn" onclick="closeTimeoutModal()">Riprova</button>
         </div>
     </div>
 
     <script>
         /* ==========================================================================
-           STATO GLOBALE E VARIABILI
+           STATO GLOBALE ED ELABORAZIONE CODICE
            ========================================================================== */
-        let urlLettoDalQR = "";
-        let html5QrCodeScanner = null;
-        let isTorchOn = false;
-        
-        let scanTimer = null;
-        let timeLeft = 30;
+        let codiceClean = "";
+        let finalGeneratedUrl = "";
         let currentStepId = 'step1';
 
+        /* Pulizia e formattazione istantanea del testo inserito */
+        function handleCodeInput(inputElement) {
+            let val = inputElement.value;
+            val = val.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            inputElement.value = val;
+            
+            document.getElementById('inputError').style.display = 'none';
+        }
+
+        function submitCode() {
+            const inputVal = document.getElementById('codeInput').value.trim();
+            
+            // Controllo lunghezza da 5 a 20 caratteri
+            if (inputVal.length < 5 || inputVal.length > 20) {
+                document.getElementById('inputError').style.display = 'block';
+                return;
+            }
+
+            codiceClean = inputVal;
+            document.getElementById('displayEnteredCode').innerText = codiceClean;
+            switchStep('stepConfirm', 3);
+        }
+
+        function editCode() {
+            switchStep('stepInput', 3);
+        }
+
+        function confirmCodeAndGenerateUrl() {
+            // Concatenazione dell'URL con il codice pulito
+            finalGeneratedUrl = "https://fotoshare.co/i/" + codiceClean;
+            switchStep('stepFinal', 4);
+        }
+
+        function openGeneratedUrl() {
+            if (finalGeneratedUrl) {
+                window.open(finalGeneratedUrl, "_blank");
+            }
+        }
+
+        function copyGeneratedUrl() {
+            if (finalGeneratedUrl) {
+                navigator.clipboard.writeText(finalGeneratedUrl).then(() => {
+                    alert("Collegamento completo copiato negli appunti!");
+                }).catch(() => {
+                    alert("Impossibile copiare automaticamente. URL: " + finalGeneratedUrl);
+                });
+            }
+        }
+
         /* ==========================================================================
-           GESTIONE CAMBIO STEP CON AGGIORNAMENTO BARRA E SCROLL AUTOMATICO
+           GESTIONE CAMBIO STEP (4 PASSI)
            ========================================================================== */
         function updateProgressBar(stepNum) {
-            for (let i = 1; i <= 3; i++) {
+            for (let i = 1; i <= 4; i++) {
                 const dot = document.getElementById(`dot${i}`);
                 const label = document.getElementById(`label${i}`);
                 if (dot) {
@@ -995,12 +841,16 @@
 
             const fill1 = document.getElementById('fill1');
             const fill2 = document.getElementById('fill2');
+            const fill3 = document.getElementById('fill3');
 
             if (stepNum >= 2 && fill1) fill1.style.width = '100%';
             else if (fill1) fill1.style.width = '0%';
 
             if (stepNum >= 3 && fill2) fill2.style.width = '100%';
             else if (fill2) fill2.style.width = '0%';
+
+            if (stepNum >= 4 && fill3) fill3.style.width = '100%';
+            else if (fill3) fill3.style.width = '0%';
         }
 
         function switchStep(targetStepId, stepNum, callback = null) {
@@ -1034,195 +884,21 @@
             }, 400);
         }
 
-        /* ==========================================================================
-           NAVIGAZIONE
-           ========================================================================== */
         function goToStep1() { 
-            stopTimer();
-            if (html5QrCodeScanner) html5QrCodeScanner.stop().catch(e => {});
             switchStep('step1', 1); 
         }
 
         function goToStepInstructions() {
-            stopTimer();
-            if (html5QrCodeScanner) html5QrCodeScanner.stop().catch(e => {});
             switchStep('stepInstructions', 2);
         }
 
-        function goToStep4() {
-            switchStep('step4', 2, startScanner);
+        function goToStepInput() {
+            switchStep('stepInput', 3);
         }
 
         /* ==========================================================================
-           INTEGRAZIONE FOTOCAMERA SCANNER, TORCIA E TIMER
+           EFFETTI SFONDO (PARTICELLE & PARALLASSE)
            ========================================================================== */
-        function startScanner() {
-            const loadingOverlay = document.getElementById('loadingOverlay');
-            const laser = document.getElementById('laser');
-            const timerDisplay = document.getElementById('timerDisplay');
-            
-            loadingOverlay.classList.add('active');
-            laser.style.display = 'none';
-            timerDisplay.classList.remove('warning');
-            timerDisplay.innerText = "Avvio fotocamera...";
-
-            html5QrCodeScanner = new Html5Qrcode("reader");
-
-            const config = { 
-                fps: 24, 
-                qrbox: { width: 270, height: 270 },
-                aspectRatio: 1.0
-            };
-
-            html5QrCodeScanner.start(
-                { facingMode: "environment" }, 
-                config,
-                onQrCodeSuccess
-            ).then(() => {
-                loadingOverlay.classList.remove('active');
-                laser.style.display = 'block';
-                checkTorchSupport();
-                resetAndStartTimer();
-            }).catch(err => {
-                console.error("Impossibile avviare fotocamera posteriore:", err);
-                html5QrCodeScanner.start({ facingMode: "user" }, config, onQrCodeSuccess)
-                .then(() => {
-                    loadingOverlay.classList.remove('active');
-                    laser.style.display = 'block';
-                    resetAndStartTimer();
-                })
-                .catch(() => {
-                    timerDisplay.innerText = "Fotocamera non disponibile";
-                    loadingOverlay.classList.remove('active');
-                });
-            });
-        }
-
-        function checkTorchSupport() {
-            try {
-                const capabilities = html5QrCodeScanner.getRunningTrackCapabilities();
-                if (capabilities.torch) {
-                    document.getElementById('torchBtn').style.display = 'block';
-                }
-            } catch(e) {}
-        }
-
-        function toggleTorch() {
-            if (html5QrCodeScanner) {
-                isTorchOn = !isTorchOn;
-                html5QrCodeScanner.applyVideoConstraints({
-                    advanced: [{ torch: isTorchOn }]
-                }).catch(e => console.log(e));
-            }
-        }
-
-        function resetAndStartTimer() {
-            stopTimer();
-            timeLeft = 30;
-            updateTimerDisplay();
-
-            scanTimer = setInterval(() => {
-                timeLeft--;
-                updateTimerDisplay();
-
-                if (timeLeft <= 0) {
-                    stopTimer();
-                    handleScanTimeout();
-                }
-            }, 1000);
-        }
-
-        function stopTimer() {
-            if (scanTimer) {
-                clearInterval(scanTimer);
-                scanTimer = null;
-            }
-        }
-
-        function updateTimerDisplay() {
-            const display = document.getElementById('timerDisplay');
-            if (display) {
-                display.innerText = `Tempo rimasto: ${timeLeft}s`;
-                if (timeLeft <= 10) {
-                    display.classList.add('warning');
-                } else {
-                    display.classList.remove('warning');
-                }
-            }
-        }
-
-        function handleScanTimeout() {
-            if (html5QrCodeScanner) {
-                html5QrCodeScanner.stop().catch(err => console.log(err));
-            }
-            document.getElementById('timeoutModal').classList.add('active');
-        }
-
-        function closeTimeoutModal() {
-            document.getElementById('timeoutModal').classList.remove('active');
-            goToStepInstructions();
-        }
-
-        function onQrCodeSuccess(decodedText, decodedResult) {
-            stopTimer();
-            
-            if (navigator.vibrate) {
-                navigator.vibrate([100, 50, 100]);
-            }
-
-            const laser = document.getElementById('laser');
-            laser.style.display = 'none';
-            
-            if (html5QrCodeScanner) {
-                html5QrCodeScanner.stop().then(() => {
-                    processDecodedQr(decodedText);
-                }).catch(err => {
-                    processDecodedQr(decodedText);
-                });
-            } else {
-                processDecodedQr(decodedText);
-            }
-        }
-
-        function processDecodedQr(url) {
-            urlLettoDalQR = url;
-
-            const analysisOverlay = document.getElementById('analysisOverlay');
-            const analysisBar = document.getElementById('analysisBar');
-            analysisOverlay.classList.add('active');
-            
-            setTimeout(() => { analysisBar.style.width = "100%"; }, 50);
-
-            setTimeout(() => {
-                analysisOverlay.classList.remove('active');
-                
-                const successOverlay = document.getElementById('successOverlay');
-                successOverlay.classList.add('active');
-
-                setTimeout(() => {
-                    switchStep('step5', 3);
-                }, 1200);
-
-            }, 1000);
-        }
-
-        /* ==========================================================================
-           DOWNLOAD E UTILITIES FINALI
-           ========================================================================== */
-        function downloadPhoto() {
-            if (urlLettoDalQR) {
-                window.open(urlLettoDalQR, "_blank");
-            }
-        }
-
-        function copyPhotoUrl() {
-            if (urlLettoDalQR) {
-                navigator.clipboard.writeText(urlLettoDalQR).then(() => {
-                    alert("Link copiato negli appunti!");
-                }).catch(() => {});
-            }
-        }
-
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
 
@@ -1255,7 +931,7 @@
                 else if (this.y < 0) this.y = canvas.height;
             }
             draw() {
-                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.fillStyle = `rgba(255, 136, 0, ${this.opacity})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -1281,7 +957,7 @@
         initParticles();
         animateParticles();
 
-        /* PARALLAX EFFECT */
+        /* EFFETTO PARALLASSE */
         window.addEventListener('mousemove', (e) => {
             const moveX = (e.clientX - window.innerWidth / 2) * 0.008;
             const moveY = (e.clientY - window.innerHeight / 2) * 0.008;
