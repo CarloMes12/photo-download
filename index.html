@@ -585,6 +585,43 @@
             p { font-size: 14px; }
             .step-labels { font-size: 9px; }
         }
+
+/* TEMA NATALIZIO: modifiche esclusivamente estetiche */
+:root {--bg-dark:#e9f4ec;--accent-stripe:#bd3042;--accent-glow:#d5a94f;--accent-purple:#39805e;--accent-emerald:#25815b;--accent-red:#bb3543;--text-main:#204633;--text-muted:#536e60;--text-dim:#788d80;--glass-bg:rgba(255,255,255,.93);--glass-border:rgba(45,120,77,.2);--glass-border-hover:rgba(190,48,66,.45)}
+.ambient-bg{background:radial-gradient(circle at 50% 10%,#fffdf5,#eaf5ee 55%,#d9eae0)}
+.ambient-grid{background-image:linear-gradient(to right,rgba(40,110,70,.05) 1px,transparent 1px),linear-gradient(to bottom,rgba(40,110,70,.05) 1px,transparent 1px)}
+.glow-orb{mix-blend-mode:multiply;opacity:.22}
+.orb-1{background:radial-gradient(circle,#d65b64,transparent 70%)}
+.orb-2{background:radial-gradient(circle,#6cbb8c,transparent 70%)}
+.orb-3{background:radial-gradient(circle,#e9c77c,transparent 70%)}
+.card{box-shadow:0 24px 75px -22px rgba(35,91,60,.25),inset 0 0 0 1px #fff}
+.card::before{background:linear-gradient(135deg,rgba(187,47,65,.4),rgba(219,174,78,.16),rgba(47,122,78,.4))}
+.card:hover{box-shadow:0 24px 75px -18px rgba(35,91,60,.3)}
+.card::after{content:'❄';position:absolute;top:12px;right:20px;font-size:20px;color:#a6cbbb;pointer-events:none}
+.progress-dot{background:#d7e8dd;border-color:#bfd8c8}
+.progress-dot.active{border-color:white;box-shadow:0 0 0 4px rgba(189,48,66,.12)}
+.progress-line{background:#dbe9df}
+.icon-wrapper{background:#f4faf5;border-color:#d5e7da;box-shadow:0 10px 24px rgba(40,90,60,.1)}
+.icon-success{color:#248157;background:#eaf8ef;border-color:#b9ddc7;box-shadow:none}
+.icon-code{color:#b93243;background:#fff1f1;border-color:#efc9ce;box-shadow:none}
+.icon-info{color:#287957;background:#eaf7f0;border-color:#c3e1d0;box-shadow:none}
+h1{background:linear-gradient(135deg,#1c4932,#36805b);-webkit-background-clip:text;background-clip:text}
+.instruction-item{background:#f5faf6;border-color:#dcebe1}
+.instruction-number{background:linear-gradient(135deg,#c93448,#a52338);box-shadow:0 4px 12px rgba(180,40,60,.2)}
+.instruction-content h3{color:#244c37}
+.warning-banner{background:#fff5f2;border-color:#ecc6c2;box-shadow:none}
+.warning-text{color:#89534f}.warning-text strong{color:#a62b3b}
+.input-label{color:#ad3040}
+.code-input{background:white;border-color:#d2e1d6;color:#204633;box-shadow:inset 0 2px 4px rgba(30,80,50,.04)}
+.code-input:focus{border-color:#bd3042;box-shadow:0 0 0 4px rgba(189,48,66,.1)}
+.code-preview-box{background:#f6faf6;border-color:#d4e5d9}.code-preview-value{color:#204633}
+.btn{background:linear-gradient(135deg,#c93649,#a72538);box-shadow:0 8px 24px -4px rgba(175,39,56,.3)}
+.btn:hover{box-shadow:0 12px 30px -4px rgba(175,39,56,.4)}
+.btn-secondary,.back-btn{background:#f0f7f2;border-color:#d5e6da;color:#2e6347;box-shadow:none}
+.btn-secondary:hover,.back-btn:hover{background:#e7f2e9;border-color:#bbd8c5;color:#204633}
+.step-labels span.active{color:#204633}
+.ambient-bg::before{content:'❄     ✧      ❅      ✧     ❄';position:absolute;top:5%;left:0;right:0;text-align:center;color:#70a58c;opacity:.42;font-size:22px;letter-spacing:10px;pointer-events:none}
+.ambient-bg::after{content:'✦      ❄      ✦      ❅';position:absolute;bottom:7%;left:0;right:0;text-align:center;color:#b99e65;opacity:.4;font-size:22px;letter-spacing:12px;pointer-events:none}
     </style>
 </head>
 <body>
@@ -931,7 +968,7 @@
                 else if (this.y < 0) this.y = canvas.height;
             }
             draw() {
-                ctx.fillStyle = `rgba(255, 136, 0, ${this.opacity})`;
+                ctx.fillStyle = `rgba(110, 166, 140, ${this.opacity})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
