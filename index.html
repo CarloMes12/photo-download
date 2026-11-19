@@ -51,18 +51,20 @@ const img=document.getElementById('photo');
 const downloadBtn=document.getElementById('download');
 const retryBtn=document.getElementById('retry');
 let requestId=0;
+let displayedNumber=null;
 function goToStep(index){steps.forEach((step,i)=>step.classList.toggle('active',i===index));window.scrollTo({top:0,behavior:'instant'});if(index===2)loadPhoto();}
 document.getElementById('continue').addEventListener('click',()=>goToStep(1));
 document.getElementById('show-photo').addEventListener('click',()=>goToStep(2));
-async function getLatestPhoto(){const res=await fetch(FUNCTION_URL,{method:'GET',cache:'no-store'});let data;try{data=await res.json();}catch{throw new Error('Risposta non valida dal servizio foto');}if(!res.ok||!data.success||!data.photo_url)throw new Error(data.error||'Fotografia non disponibile');return data.photo_url;}
+async function getLatestPhoto(){const res=await fetch(FUNCTION_URL,{method:'GET',cache:'no-store'});let data;try{data=await res.json();}catch{throw new Error('Risposta non valida dal servizio foto');}if(!res.ok||!data.success||!data.photo_url)throw new Error(data.error||'Fotografia non disponibile');return {url:data.photo_url, number:data.counter};}
 async function loadPhoto(){
  const current=++requestId;
  img.style.display='none';img.removeAttribute('src');
  statusEl.hidden=false;statusEl.innerHTML='<span class="loading" aria-hidden="true"></span>Sto cercando la tua fotografia…';
- downloadBtn.disabled=true;retryBtn.disabled=true;
+ displayedNumber=null;downloadBtn.disabled=true;retryBtn.disabled=true;
  try{
-  const url=await getLatestPhoto();if(current!==requestId)return;
-  await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(new Error('Impossibile visualizzare la fotografia'));img.src=url;});
+  const photo=await getLatestPhoto();if(current!==requestId)return;
+  displayedNumber=photo.number;
+  await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(new Error('Impossibile visualizzare la fotografia'));img.src=photo.url;});
   if(current!==requestId)return;
   img.style.display='block';statusEl.hidden=true;downloadBtn.disabled=false;
  }catch(error){if(current===requestId){statusEl.hidden=false;statusEl.textContent='Non riesco a caricare la fotografia. '+(error.message||'Riprova tra poco.');}}
@@ -73,10 +75,13 @@ downloadBtn.addEventListener('click',async()=>{
  downloadBtn.disabled=true;downloadBtn.textContent='Preparo il download…';
  try{
   // Chiediamo sempre un URL nuovo: quelli firmati scadono dopo 5 minuti.
-  const url=await getLatestPhoto();const response=await fetch(url);
+  const photo=await getLatestPhoto();
+  if(photo.number!==displayedNumber){throw new Error('È disponibile una fotografia diversa. Premi Aggiorna fotografia prima di scaricarla.');}
+  const response=await fetch(photo.url);
   if(!response.ok)throw new Error('Impossibile scaricare il file');
   const blob=await response.blob();const objectUrl=URL.createObjectURL(blob);
-  const link=document.createElement('a');link.href=objectUrl;link.download=blob.type==='image/png'?'foto_natale.png':'foto_natale.jpg';
+  const link=document.createElement('a');link.href=objectUrl;const suffix=String(displayedNumber).padStart(3,'0');
+  link.download='foto_natale_'+suffix+(blob.type==='image/png'?'.png':'.jpg');
   document.body.appendChild(link);link.click();link.remove();
   setTimeout(()=>URL.revokeObjectURL(objectUrl),30000);
  }catch(error){alert('Download non riuscito: '+error.message+'\nRiprova tra qualche secondo.');}
